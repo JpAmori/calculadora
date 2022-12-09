@@ -1,0 +1,1004 @@
+$spine = function (seletor) {
+    this.funcValidations = {
+        String: function (value) {
+            if (value == undefined) {
+                value = jQuery(seletor).val();
+            }
+            if (isNaN(value)) {
+                return true;
+            }
+            return false;
+        },
+        Cep: function (input) {
+            if (input == undefined) {
+                input = jQuery(seletor).val();
+            }
+            obj = /^[0-9]{5}-[0-9]{3}$/;
+            return obj.test(cep);
+        },
+        Integer: function (value) {
+            if (!value) {
+                return true;
+            }
+            var i;
+            if (value.length == 0) {
+                return false;
+            }
+            for (i = 0; i < value.length; i++) {
+                var c = value.charAt(i);
+                if (((c < "0") || (c > "9"))) {
+                    return false;
+                }
+            }
+            return true;
+        },
+        NotEmpty: function (value) {
+            if (value == undefined) {
+                value = jQuery(seletor).val();
+            }
+            return !($.trim(val) == "");
+        },
+        Email: function (email) {
+            if (email == undefined) {
+                email = jQuery(seletor).val();
+            }
+            var exclude = /[^@\-\.\w]|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
+            var check = /@[\w\-]+\./;
+            var checkend = /\.[a-zA-Z]{2,3}$/;
+            if (((email.search(exclude) != -1) || (email.search(check)) == -1) || (email.search(checkend) == -1)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        },
+        Cpf: function (cpf) {
+            if (cpf == undefined) {
+                cpf = jQuery(seletor).val();
+            }
+            cpf = String(cpf).replace(/\D/g, "");
+            var soma;
+            var resto;
+            var i;
+            if (
+                (cpf.length != 11) ||
+                (cpf == "99999999990") ||
+                (cpf == "11111111111") ||
+                (cpf == "22222222222") ||
+                (cpf == "33333333333") ||
+                (cpf == "44444444444") ||
+                (cpf == "55555555555") ||
+                (cpf == "66666666666") ||
+                (cpf == "77777777777") ||
+                (cpf == "88888888888") ||
+                (cpf == "99999999999")
+            ) {
+                return false;
+            }
+            soma = 0;
+            for (i = 1; i <= 9; i++) {
+                soma += Math.floor(cpf.charAt(i - 1)) * (11 - i);
+            }
+            resto = 11 - (soma - (Math.floor(soma / 11) * 11));
+            if ((resto == 10) || (resto == 11)) {
+                resto = 0;
+            }
+            if (resto != Math.floor(cpf.charAt(9))) {
+                return false;
+            }
+            soma = 0;
+            for (i = 1; i <= 10; i++) {
+                soma += cpf.charAt(i - 1) * (12 - i);
+            }
+            resto = 11 - (soma - (Math.floor(soma / 11) * 11));
+            if ((resto == 10) || (resto == 11)) {
+                resto = 0;
+            }
+            if (resto != Math.floor(cpf.charAt(10))) {
+                return false;
+            }
+            return true;
+        },
+        Cnpj: function (cnpj) {
+            if (cnpj == undefined) {
+                cnpj = jQuery(seletor).val();
+            }
+            cnpj = String(cnpj).replace(/\D/g, "");
+            if (cnpj == '') {
+                return false;
+            }
+            if (cnpj.length != 14) {
+                return false;
+            }
+            if (
+                cnpj == "99999999999999" ||
+                cnpj == "11111111111111" ||
+                cnpj == "22222222222222" ||
+                cnpj == "33333333333333" ||
+                cnpj == "44444444444444" ||
+                cnpj == "55555555555555" ||
+                cnpj == "66666666666666" ||
+                cnpj == "77777777777777" ||
+                cnpj == "88888888888888" ||
+                cnpj == "99999999999999"
+            ) {
+                return false;
+            }
+            tamanho = cnpj.length - 2
+            numeros = cnpj.substring(0, tamanho);
+            digitos = cnpj.substring(tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) {
+                    pos = 9;
+                }
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(0)) {
+                return false;
+            }
+            tamanho = tamanho + 1;
+            numeros = cnpj.substring(0, tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2) {
+                    pos = 9;
+                }
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(1)) {
+                return false;
+            }
+            return true;
+        },
+        Required: function (value) {
+            if (value == undefined) {
+                value = jQuery(seletor).val();
+            }
+            if (value == "" || value === "" || value == "NULL" || value === "NULL") {
+                return false;
+            }
+            return true;
+        },
+        Data: function (value) {
+            if (!value) {
+                return true;
+            }
+            data = value.replace(/[^0-9\/]/g, "");
+            var partes = data.split("/");
+
+            if (partes.length != 3) {
+                return false;
+            }
+
+            var dia = partes[0];
+            var mes = partes[1];
+            var ano = partes[2];
+
+            if (isNaN(dia) || isNaN(mes) || isNaN(ano)) {
+                return false;
+            }
+
+            if (mes > 12 || mes < 1 || ano < 1 || dia < 1) {
+                return false;
+            }
+
+            if (mes == 2) {
+                maiorDia = ( ( (!(ano % 4)) && (ano % 100) ) || (!(ano % 400)) ) ? 29 : 28;
+
+                if (dia > maiorDia) {
+                    return false;
+                }
+
+            } else {
+                if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+                    if (dia > 30) {
+                        return false;
+                    }
+                } else {
+                    if (dia > 31) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        },
+
+        Time: function (value) {
+            if (!value) {
+                return true;
+            }
+            time = value.replace(/[^0-9\/]/g, "");
+
+            var partes = time.split(":");
+            var hora = partes[0];
+
+            if (isNaN(hora) || hora.length < 3) {
+                return false;
+            }
+
+            return true;
+
+        },
+        CnpjCpf: function (value) {
+            if (value == undefined) {
+                value = jQuery(seletor).val();
+            }
+            if (value.length == 18) {
+                return this.Cnpj(value);
+            } else if (value.length == 14) {
+                return this.Cpf(value);
+            } else {
+                return false;
+            }
+        },
+
+
+        /**
+         * Caio Saron - gordo :)
+         */
+        MoedaToDec: function MoedaToDec(valor) {
+            if (valor == '') {
+                valor = '0';
+            }
+            valor = valor.replaceAll(',', '');
+            valor = valor.replaceAll('.', '');
+            valor = parseFloat(valor);
+            valor /= 100;
+            return valor;
+        },
+        /**
+         * Caio Saron - gordo :)
+         */
+        DectToMoeda: function DecToMoeda(valor) {
+            if (valor == "") {
+                valor = 0;
+            }
+            valor = parseFloat(valor);
+            return this.NumberFormat(valor, 2, ",", ".");
+        },
+
+        NumberFormat: function (number, decimals, dec_point, thousands_sep) {
+            var n = number, prec = decimals;
+
+            var toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return (Math.round(n * k) / k).toString();
+            };
+
+            n = !isFinite(+n) ? 0 : +n;
+            prec = !isFinite(+prec) ? 0 : Math.abs(prec);
+            var sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep;
+            var dec = (typeof dec_point === 'undefined') ? '.' : dec_point;
+
+            var s = (prec > 0) ? toFixedFix(n, prec) : toFixedFix(Math.round(n), prec); //fix for IE parseFloat(0.55).toFixed(0) = 0;
+
+            var abs = toFixedFix(Math.abs(n), prec);
+            var _, i;
+
+            if (abs >= 1000) {
+                _ = abs.split(/\D/);
+                i = _[0].length % 3 || 3;
+
+                _[0] = s.slice(0, i + (n < 0)) +
+                       _[0].slice(i).replace(/(\d{3})/g, sep + '$1');
+                s = _.join(dec);
+            } else {
+                s = s.replace('.', dec);
+            }
+
+            var decPos = s.indexOf(dec);
+            if (prec >= 1 && decPos !== -1 && (s.length - decPos - 1) < prec) {
+                s += new Array(prec - (s.length - decPos - 1)).join(0) + '0';
+            }
+            else if (prec >= 1 && decPos === -1) {
+                s += dec + new Array(prec).join(0) + '0';
+            }
+            return s;
+        }
+
+    };
+
+    this.msgValidations = {
+        String: "Digite somente caracteres!",
+        Cep: "Cep inválido!",
+        Integer: "Digite somente números!",
+        NotEmpty: "Campo não pode ser vazio!",
+        Email: "Digite um email válido",
+        Cpf: "Digite um CPF válido!",
+        Cnpj: "Digite um CNPJ válido!",
+        Required: "Este campo é obrigatório!",
+        Data: "Informe um data válida!",
+        CnpjCpf: 'Informe um CPF ou CNPJ válido',
+        Time: 'Insira a hora no formato 0:00'
+    };
+
+    this.maskeds = {
+        Cpf: {mask: '999.999.999-99', options: {placeholder: " "}},
+        Date: {mask: '99/99/9999', options: {}},
+        Time: {mask: '99:99:99', options: {}},
+        Cep: {mask: '99999-999', options: {}},
+        Numeric: {mask: '#0', options: {}},
+        Money: {mask: '#.##0,00', options: {}},
+        Cnpj: {mask: '99.999.999/9999-99', options: {}},
+        Fone: {mask: '(99) 999999-9999', options: {}},
+        Percent: {mask: '99,99%', options: {}},
+        Enem: {mask: '9999.99', options: {reverse: false}}
+    };
+
+    this.autocomplete = function (params) {
+        params = (params == undefined) ? {} : params;
+        mapQuery = {};
+        if (params.source == undefined) {
+            params.source = function (query, process, element) {
+                element.attr('data-autocomplete-status', 'off');
+                id = element.attr('id');
+                if (mapQuery[id] == undefined) {
+                    mapQuery[id] = {};
+                }
+                if (!mapQuery[id][query]) {
+                    console.log(element.attr('data-autocomplete-url'));
+                    $.ajax({
+                        url: element.attr('data-autocomplete-url'),
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {'string': query},
+                        success: function (data) {
+                            console.log(data);
+                            labels = [];
+                            map = {};
+                            $.each(data.array, function (i, item) {
+                                map[item.label] = item;
+                                labels.push(item.label);
+                            });
+                            mapQuery[id][query] = data;
+                            console.log(labels);
+                            process(labels);
+                        },
+                        erro: function () {
+                            alert("Erro");
+                        }
+                    });
+                } else {
+                    labels = [];
+                    map = {};
+                    $.each(mapQuery[id][query].array, function (i, item) {
+                        map[item.label] = item;
+                        labels.push(item.label);
+                    });
+                    alert("Erro");
+                    process(labels);
+                }
+            }
+        }
+
+        if (params.updater == undefined) {
+            params.updater = function (item, element) {
+                element.attr('data-value', map[item].codigo);
+                element.attr('data-autocomplete-status', 'ok');
+                return item;
+            }
+        }
+
+        if (seletor == undefined) {
+            // TODO otimizar codigo
+            $("input[data-autocomplete-url]").each(function () {
+                var element = $(this);
+                $(this).typeahead({
+                    source: function (query, process) {
+                        params.source(query, process, element);
+                    },
+                    updater: function (item) {
+                        return params.updater(item, element);
+                    },
+                });
+            });
+
+        } else {
+            if (params == null) {
+                params = {};
+            }
+            url = (params.url != undefined) ? params.url : $(seletor).attr('data-autocomplete-url');
+            $(seletor).typeahead({
+                source: function (query, process) {
+                    return ['opa', 'a'];
+                },
+                updater: function (item) {
+                    return params.updater(item, $(seletor));
+                },
+            });
+
+        }
+
+    }
+    /**
+     * Fonte: https://github.com/devbridge/jQuery-Autocomplete
+     *        http://www.devbridge.com/projects/autocomplete/jquery/
+     */
+    this.autocompleteAjax = function (params) {
+        if (params == undefined) {
+            params = {};
+        }
+        // local a processar a requisicao ajax
+        if (params.serviceUrl == undefined) {
+            params.serviceUrl = $(seletor).attr('data-autocomplete-url');
+            if (params.serviceUrl == undefined && seletor != undefined) {
+                throw "Defina a url de busca do autocomplete, pelo atributo do formulário data-autocomplete-url ou pelos parametros!"
+            }
+        }
+        // funcao padrao que retorna os dados a serem exibidos
+        if (params.transformResult == undefined) {
+            params.transformResult = function (response) {
+                return {
+                    suggestions: response.array
+                };
+            }
+        }
+
+        if (params.baseUrl == undefined) {
+            params.baseUrl = '';
+        }
+
+        // tamanho maximo em pixel da scroll
+        if (params.maxHeight == undefined) {
+            params.maxHeight = 150;
+        }
+        // disposicao do elemento sobre os outros
+        if (params.zIndex == undefined) {
+            params.zIndex = 9999;
+        }
+        // minimo de chars para enviar a requisicao
+        if (params.minChars == undefined) {
+            params.minChars = 1;
+        }
+        // delayt
+        if (params.deferRequestBy == undefined) {
+            params.deferRequestBy = 0;
+        }
+
+        /**
+         * params a fazer
+         */
+        if (seletor == undefined) {
+            $("[data-autocomplete-url]").each(function () {
+                params.serviceUrl = $(this).attr('data-autocomplete-url');
+                $(this).autocomplete({
+                    type: "post",
+                    dataType: "json",
+                    serviceUrl: params.baseUrl + params.serviceUrl,
+                    maxHeight: params.maxHeight,
+                    zIndex: params.zIndex,
+                    minChars: params.minChars,
+                    deferRequestBy: params.deferRequestBy,
+                    //            params : params.params, a fazer
+                    transformResult: function (response) {
+                        return params.transformResult(response);
+                    },
+                    onSelect: function (select) {
+                        $(this).attr('data-value', select.data).attr('data-text', select.value);
+                    },
+                    //            onInvalidateSelection : function (){
+                    //            essa funcao e executada quando algo q nao existe foi selecioando
+                    //            }
+                    onSearchError: function (query, ajax, status, errorThrow) {
+                        //                        alert('Erro');
+                    }
+                });
+
+            });
+
+        } else {
+            $(seletor).autocomplete({
+                type: "post",
+                dataType: "json",
+                serviceUrl: params.serviceUrl,
+                maxHeight: params.maxHeight,
+                zIndex: params.zIndex,
+                minChars: params.minChars,
+                deferRequestBy: params.deferRequestBy,
+                //            params : params.params, a fazer
+                transformResult: function (response) {
+                    return params.transformResult(response);
+                },
+                onSelect: function (select) {
+                    $(seletor).attr('data-value', select.data).attr('data-text', select.value);
+                },
+                //            onInvalidateSelection : function (){
+                //            essa funcao e executada quando algo q nao existe foi selecioando
+                //            }
+                onSearchError: function (query, ajax, status, errorThrow) {
+                    console.log(query);
+                    console.log(ajax);
+                    console.log(status);
+                    console.log(errorThrow);
+                    alert('Erro');
+                }
+            });
+        }
+
+
+    }
+
+    this.validateForm = function (params) {
+        if (seletor == undefined) {
+            $("form[data-validate=yes]").each(function () {
+                // aplica as parada quando submeter o for
+                $(this).submit(function () {
+                    //                console.log('sadf');
+                    inputs = $(this).find("[data-validations]:visible");
+                    go = true;
+                    inputs.each(function () {
+                        if (!$(this).attr('disabled')) {
+                            type = $(this).attr('type');
+                            try {
+                                //                            console.log("Go->"+go);
+                                validateInputs(this);
+                                //                            console.log("Go<-"+go);
+                                //                            console.log(this);
+                            } catch (e) {
+                                return false;
+                            }
+                            //                        console.log(this);
+                            //                        console.log(go);
+                            //                        console.log(this);
+                            //                        console.log(go);
+                        }
+                    });
+                    // valida autocompletes
+                    //                    inputsAutocompletes = $(this).find("[data-autocomplete-url]");
+                    //                    inputsAutocompletes.each(function(){
+                    //                        if ( $(this).attr('data-autocomplete-status') != 'ok' && $(this).attr('data-autocomplete-valid') == 'yes' ){
+                    //                            go = false;
+                    //                            alert('Opa, vc inseriu dados inexistentes no formulário, add msg nos forms');
+                    //                        }
+                    //                    });
+                    if (!go) {
+                        return false;
+                    }
+                    // substitui os valores ficticios dos campos autocompletes pelos reais
+                    $(this).find("[data-autocomplete-url]").each(function () {
+                        value = $(this).attr('data-value');
+                        if (value != undefined) {
+                            $(this).val(value);
+                        }
+                    });
+                });
+
+                // focus add masked input
+                inputsMask = $(this).find("[data-masked]");
+                inputsMask.each(function () {
+                    $(this).on("focus", function () {
+                        if (maskeds[$(this).attr('data-masked')] != undefined) {
+                            $(this).mask(maskeds[$(this).attr('data-masked')].mask, maskeds[$(this).attr('data-masked')].options);
+                        } else {
+                            $(this).mask($(this).attr('data-masked'));
+                    }
+                    });
+                });
+                // blur
+                inputsBlur = $(this).find("[data-validations]:visible");
+                inputsBlur.each(function () {
+                    $(this).on('blur', function () {
+                        validateInputs(this);
+                    });
+                });
+
+                $(this).find("[data-masked='Enem']").change(function () {
+                    this.value = this.value.replace(new RegExp('^[\.]+|[\.]+$','g'), "");
+                    var val = parseFloat(this.value || 0);
+
+                    if (val > 1000) {
+                        alert('A nota deve ser menor ou igual a 1000!');
+                        this.value = '';
+                        this.focus();
+                    }
+                });
+
+            });
+        }
+    }
+
+    this.validateInputs = function (elemento) {
+        input = $(elemento);
+        val = input.val();
+        msg = "";
+        type = input.attr('type');
+        if (input.attr('data-validations') == "") {
+            return true;
+        }
+
+        if (type == "text" || type == "textarea" || type == "file" || input.context.tagName == "SELECT") {
+            validate = input.attr('data-validations').toString().split(',');
+            $.each(validate, function (i, item) {
+                try {
+                    ret = eval("funcValidations." + item + "( '" + val + "' );");
+                } catch (a) {
+                    ret = eval(item + "('" + val + "',input)");
+                }
+                if (ret !== true) {
+                    go = false;
+                    if (msgValidations[item] === undefined) {
+                        msg += ret;
+                    } else {
+                        msg += msgValidations[item] + "\t";
+                    }
+                }
+            });
+
+        } else if (type == "radio" && input.attr('data-validations') == "Required") {
+            if ($('input[name="' + input.attr('name') + '"]:checked').length == 0) {
+                if (input.parent().attr("class") == "rating state-error") {
+                    msg = "Por favor faça sua classificação!";
+                } else {
+                    msg = "Marque alguma opção!";
+                }
+                go = false;
+            }
+        } else if (type == "checkbox" && input.attr('data-validations') == "Required") {
+            if ($('input[name="' + input.attr('name') + '"]:checked').length == 0) {
+                msg = "Marque no mínimo uma opção!";
+                go = false;
+            }
+        }
+
+        // verifica se houveram erros
+        if (msg != "") {
+            input.parent().addClass('state-error');
+            input.parent().parent().find("div[class^='note']").addClass('note-error').html(msg);
+        } else {
+            input.parent().removeClass('state-error');
+            input.parent().parent().find("div[class^='note']").removeClass('note-error').html("");
+        }
+
+    }
+
+    this.listGenerator = function (params) {
+        $("table[data-pagination-ajax=yes]").dataTable({
+            oLanguage: {
+                sProcessing: "<i class='fa fa-lg fa-spinner fa-spin'></i>",
+                sLengthMenu: "Mostrar _MENU_ registros por página",
+                sZeroRecords: "Nenhum registro encontrado",
+                sInfo: "Mostrando _START_ / _END_ de _TOTAL_ registro(s)",
+                sInfoEmpty: "Mostrando 0 / 0 de 0 registros",
+                sInfoFiltered: "(filtrado de _MAX_ registros)",
+                sSearch: "Procurar: ",
+                oPaginate: {
+                    sFirst: "Início",
+                    sPrevious: "Anterior",
+                    sNext: "Próximo",
+                    sLast: "Último"
+                }
+            },
+            order: [[1, 'desc']]
+        });
+        $("ul[id^='paginator-'] li").closest('.row').hide();
+        $("#listGeneratorSearch").hide();
+        $("[data-search-listgenerator=true]").parent().parent().hide();
+    };
+    this.listGeneratorOld = function (params) {
+        // evento do botao pesquisa
+        $("input[data-search-listgenerator]").keyup(function (event, a) {
+            e = event.target;
+            value = e.value;
+            parent = $(e).attr('data-parent-id');
+            page = parseInt($("ul[id='paginator-" + parent + "'] li[class='active']").text());
+            if (value != "") {
+                $("tbody[data-parent-id='" + parent + "'] tr[data-page='1']").each(function () {
+                    showLine = false;
+                    $(this).find("td[data-search='ok']").each(function () {
+                        text = $(this).text();
+                        if (text.search(eval("/[" + value + "]/gi")) >= 0) {
+                            showLine = true;
+                            return false;
+                        }
+                    });
+                    if (showLine) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+            } else {
+                $("tbody[data-parent-id='" + parent + "'] tr").each(function () {
+                    if (parseInt($(this).attr('data-page')) == page) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+        });
+
+        // evento do checkbox
+        $(document).on("click", "input[type='checkbox'][data-parent-id]", function () {
+            check = this.checked;
+            idAux = $(this).attr('data-parent-id');
+
+            if ($spine.statusCheck[idAux] == undefined) {
+                $spine.statusCheck[idAux] = {};
+            }
+
+            page = parseInt($("ul[id='paginator-" + idAux + "'] li[class='active'] a").text());
+            $spine.statusCheck[idAux]["page" + page] = check;
+
+            $("[data-check-parent='" + idAux + "']").each(function () {
+                pageTr = parseInt($(this).parent().parent().parent().attr("data-page"));
+                if (pageTr == page) {
+                    this.checked = check;
+                    $(this).attr('checked', check);
+                }
+            });
+        });
+        // evento da paginacao
+        $("ul[id^='paginator-'] li a").click(function () {
+            id = $(this).parent().parent().attr('id');
+            id = id.split("-")[1];
+
+            if ($spine.statusCheck[id] == undefined) {
+                $spine.statusCheck[id] = {};
+            }
+
+            pageActive = undefined;
+            li = $(this).parent();
+            liId = li.attr('id');
+            if (li.attr('class') == 'disabled') {
+                return false;
+            }
+
+            contLi = parseInt($(this).parent().parent().find('li').length) - 4;
+            if (liId == 'first' || liId == 'last') {
+                if (liId == "first") {
+                    page = 1;
+                    $(this).parent().parent().find("li[id='first']").addClass("disabled");
+                    $(this).parent().parent().find("li[id='previous']").addClass("disabled");
+                } else {
+                    page = contLi;
+                    $(this).parent().parent().find("li[id='last']").addClass("disabled");
+                    $(this).parent().parent().find("li[id='next']").addClass("disabled");
+                }
+                pageActive = page;
+
+            }
+            else if (liId == 'next' || liId == 'previous') {
+                page = parseInt($(this).parent().parent().find('li[class="active"] a').text());
+
+                if (liId == 'next') {
+                    page += 1;
+                    if (page == contLi) {
+                        $(this).parent().parent().find("li[id='next']").addClass("disabled");
+                        $(this).parent().parent().find("li[id='last']").addClass("disabled");
+                    }
+                    $(this).parent().parent().find("li[id='first']").removeClass("disabled");
+                    $(this).parent().parent().find("li[id='previous']").removeClass("disabled");
+
+                } else if (liId == 'previous') {
+                    page -= 1;
+                    if (page == 1) {
+                        $(this).parent().parent().find("li[id='previous']").addClass("disabled");
+                        $(this).parent().parent().find("li[id='first']").addClass("disabled");
+                    }
+                    $(this).parent().parent().find("li[id='next']").removeClass("disabled");
+                    $(this).parent().parent().find("li[id='last']").removeClass("disabled");
+
+                }
+                pageActive = page;
+            }
+
+            else {
+                page = parseInt($(this).text());
+                if (page > 1) {
+                    $(this).parent().parent().find("li[id='previous']").removeClass("disabled");
+                    $(this).parent().parent().find("li[id='first']").removeClass("disabled");
+                } else {
+                    $(this).parent().parent().find("li[id='previous']").addClass("disabled");
+                    $(this).parent().parent().find("li[id='first']").addClass("disabled");
+                }
+                if (page < contLi) {
+                    $(this).parent().parent().find("li[id='next']").removeClass("disabled");
+                    $(this).parent().parent().find("li[id='last']").removeClass("disabled");
+                } else {
+                    $(this).parent().parent().find("li[id='next']").addClass("disabled");
+                    $(this).parent().parent().find("li[id='last']").addClass("disabled");
+                }
+            }
+
+            if (page > 1) {
+                cont = $("tr[data-page='" + page + "']").length;
+                if (cont < 9) {
+                    a = (page + 10) * cont;
+                } else {
+                    a = page * cont + 1;
+                }
+
+                $("span[data-parent-id='" + id + "'][data-id='de']").html(((page - 1) * 10) + 1);
+                $("span[data-parent-id='" + id + "'][data-id='a']").html(a);
+            } else {
+                if (contLi > 1) {
+                    $("span[data-parent-id='" + id + "'][data-id='de']").html(1);
+                    $("span[data-parent-id='" + id + "'][data-id='a']").html(10);
+                }
+            }
+
+            ul = [];
+            $(this).parent().parent().find('li').each(function () {
+                $(this).removeClass("active");
+                if (this.id != "previous" && this.id != "next" && this.id != "last" && this.id != "first") {
+                    $(this).hide();
+                    ul.push(this);
+                }
+            });
+
+            if ($spine.statusCheck[id]["page" + page] === true) {
+                $("input[data-parent-id='" + id + "']")[0].checked = true;
+            } else {
+                $("input[data-parent-id='" + id + "']")[0].checked = false;
+            }
+
+            auxPage = page - 1;
+            $(ul[auxPage]).show();
+            $(ul[auxPage + 1]).show();
+            $(ul[auxPage + 2]).show();
+            $(ul[auxPage - 1]).show();
+            $(ul[auxPage - 2]).show();
+
+            if (pageActive != undefined) {
+                $(ul[pageActive - 1]).addClass("active");
+            } else {
+                $(this).parent().addClass("active");
+            }
+            if ($('table[id="' + id + '"][data-pagination-ajax="yes"]').length > 0) {
+                if ($spine.paginationAjax[id] == undefined) {
+                    $spine.paginationAjax[id] = {};
+                }
+                if ($spine.paginationAjax[id][page] == undefined) {
+                    $.ajax({
+                        url: location.href + "/pagination",
+                        data: {"page": page},
+                        type: 'post',
+                        async: false,
+                        success: function (data) {
+                            $spine.paginationAjax[id][page] = data.aaData;
+                            //                            console.log(data);
+                        }
+                    });
+                }
+                $("tbody[data-parent-id='" + id + "'] tr").each(function (indice, tr) {
+                    $(tr).find('td').each(function (indiceTd, td) {
+                        //                                    console.log( $spine.paginationAjax[id][page][0] );
+                        //                                    return false;
+                        if ($spine.paginationAjax[id][page][indice] != undefined) {
+                            if (indiceTd == 0) {
+                                array = $.map($spine.paginationAjax[id][page][indice], function (value, index) {
+                                    return [value];
+                                });
+                                $(td).find('input').attr('data-input-id', array[0]).val(array[0]);
+                            }
+                            else if ($(td).attr('data-search') == "ok") {
+                                $(this).text($spine.paginationAjax[id][page][indice][$(this).attr('data-td-name')]);
+                            }
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+
+            } else {
+                $("table[id='" + id + "'] tbody[data-parent-id='" + id + "'] tr").each(function () {
+                    if (parseInt($(this).attr('data-page')) == page) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    }
+
+    this.criaModal = function (params) {
+        jQuery(document).on("click", "#" + params.id + " button[id='buttonOk']", function () {
+            params.buttonOkFunction(this);
+            if (params.buttonOkClose != false) {
+                jQuery(this).parent().parent().parent().parent().modal("hide");
+            }
+        });
+
+        if (params.buttonOk != undefined) {
+            params.buttonOk = "<button type='button' id='buttonOk' class='btn btn-primary'>" + params.buttonOk + "</button>";
+        } else {
+            params.buttonOk = "";
+        }
+
+        html = "<div class='modal fade in' id='" + params.id + "' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='false' style='display: block;'>\
+                    <div class='modal-dialog'>\
+			<div class='modal-content'>\
+                            <div class='modal-header'>\
+                                <button type='button' id='fechaModalAuxiliar' class='close' data-dismiss='modal' aria-hidden='true'>\
+                                    ×\
+                                    </button>\
+                                    <h4 class='modal-title' id='myModalLabel'>" + params.titulo + "</h4>\
+                            </div>\
+                            <div class='modal-body' style='max-height:700px;overflow:auto;'>\
+                            " + params.conteudo + "\
+                            </div>\
+                            <div class='modal-footer'>\
+                                <button type='button'class='btn btn-default' data-dismiss='modal'>\
+                                        Cancelar\
+                                </button>\
+                                " + params.buttonOk + "\
+                            </div>\
+                        </div>\
+                    </div>\
+		</div>";
+        if (params.returnHtml == true) {
+            return html;
+        } else {
+            if (jQuery("#" + params.id).length == 0) {
+                jQuery("body").append(html);
+            }
+            jQuery("#" + params.id).modal();
+        }
+    };
+
+
+    return this;
+}
+
+$spine.statusCheck = {};
+$spine.paginationAjax = {};
+
+jQuery(function () {
+    jQuery("input[name='endCep[]']").mask('99999-999', {
+        onComplete: function (cep) {
+            jQuery.ajax({
+                url: (basePath != undefined) ? basePath + "/pessoa/cidade/busca-info-cep" : '' + "/pessoa/cidade/busca-info-cep",
+                dataType: 'json',
+                type: 'post',
+                data: { cep: $("input[name='endCep[]']").val() },
+                success: function (data) {
+                    var cepObj = $("input[name='endCep[]']:visible");
+                    $("input[name='endLogradouro[]']:visible").val(data.dados.logrNome);
+                    $("input[name='endCidade[]']:visible").val(data.dados.cidNome);
+                    $("select[name='endEstado[]']:visible").val(data.dados.estUf).trigger('change');
+                    $("input[name='endBairro[]']:visible").val(data.dados.baiNome);
+                }
+            });
+        }
+    });
+});
+jQuery(function () {
+    var fullDate = new Date();
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    $(".dataAtual").each(function () {
+        var inputDataAtual = $(this);
+        if (inputDataAtual.val() == "") {
+            inputDataAtual.val(currentDate);
+        }
+    });
+
+    jQuery("input.phone")
+    .mask("(99) 9999-9999?9")
+    .focusout(function (event) {
+        var target, phone, element;
+        target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+        phone = target.value.replace(/\D/g, '');
+        element = $(target);
+        element.unmask();
+        if(phone.length > 10) {
+            element.mask("(99) 99999-999?9");
+        } else {
+            element.mask("(99) 9999-9999?9");
+        }
+    });
+});
+
+
+

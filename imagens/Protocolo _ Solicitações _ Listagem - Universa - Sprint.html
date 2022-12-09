@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Protocolo / Solicitações / Listagem - Universa - Sprint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- #FAVICONS -->
+    <link rel="shortcut icon" href="https://universa.sprint.sistemauniversa.com.br/img/icon.png" type="image/x-icon">
+    <link rel="icon" href="https://universa.sprint.sistemauniversa.com.br/img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/css">
+    <link type="text/css" rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/smartadmin-production.min.css">
+<link type="text/css" rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/smartadmin-skins.min.css">
+<link type="text/css" rel="stylesheet" href="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/versa.shared.css">
+        <style>
+        #content {
+            padding: 0px 13px;
+            position: relative;
+        }
+
+        .alert {
+            margin-bottom: 2px;
+        }
+
+        .form-group.has-error {
+            position: relative;
+        }
+
+        .has-error .help-block {
+            margin: 0px;
+            display: none;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0px;
+        }
+
+        .form-control.select2-container {
+            padding: 0px;
+            border: 0px;
+            height: auto;
+        }
+
+        .select2-container.select2-allowclear .select2-choice abbr:before {
+            color: #000;
+            font-size: 15px;
+            position: relative;
+            left: -5px;
+        }
+
+        .select2-hidden-accessible {
+            display: none;
+        }
+
+        .form-group.has-error .select2-choice,
+        .form-group.has-error .select2-choices {
+            border-color: #b94a48;
+        }
+
+        .flash-messenger {
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .flash-messenger .close {
+            position: absolute;
+            top: 30%;
+            right: 8px;
+        }
+
+        .flash-messenger .fa {
+            position: absolute;
+            left: 3px;
+            top: 35%;
+        }
+
+        .dataTables_processing {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+        }
+        .obrigatoriedade-label:before {
+            content:"* " !important;
+            color: red;
+        }
+        .btn-pesquisa {
+            height: 32px;
+        }
+        button.btn.btn-default.btn-pesquisa {
+            background: #a8a8a800;
+        }
+        .icone-pesquisa{
+            color: #ffffff;
+        }
+        #pesMenu{
+            background-color: #ffffff2b;
+            color: #ffffff;
+        }
+    </style>
+
+    
+    
+    <script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery-2.0.2.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery-ui-1.10.3.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/bootstrap.min.js.download"></script>
+    <script src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/SmartNotification.min.js.download"></script>
+    <script>
+        window.baseUrl = "";
+
+        function limpaLogsAcesso(pathname) {
+            $.ajax({
+                url: '/sistema/sis-logs-auditoria/limpa-logs-sessao',
+                type: 'POST',
+                data: {uri: pathname},
+                dataType: 'json',
+                success: function () {
+                    return true;
+                },
+            });
+            return true;
+        }
+
+        // window.onbeforeunload = function() {
+        //     return true;
+        // };
+
+        // window.onunload = function () {
+        //     return limpaLogsAcesso(window.location.pathname);
+        // };
+
+        // $(document).ready(function () {
+        //     $(".modal.fade .close").click(function () {
+        //         limpaLogsAcesso($(".modal.fade .modal-body form:visible").attr("action"));
+        //     });
+        // });
+
+    </script>
+    <script src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/skeleton-config.js.download"></script>
+
+    <!--[if IE 8]>
+    <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+    <![endif]-->
+</head>
+<body class="desktop-detected modal-open" style="">
+
+
+<header id="header">
+    <div id="logo-group">
+        <span id="logo">
+            <img src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/logo.png" style="max-width: 300px; max-height: 45px; width: initial;">
+        </span>
+    </div>
+    <div class="pull-right">
+                <div id="trocar-senha-menu" class="btn-header pull-right">
+            <span>
+                <a href="javascript:void(0);" title="Trocar Senha" data-toggle="modal" data-target="#modal-trocar-senha">
+                    <i class="fa fa-lock"></i>
+                </a>
+            </span>
+        </div>
+        <div id="logout" class="btn-header transparent pull-right">
+            <span>
+                <a href="https://universa.sprint.sistemauniversa.com.br/acesso/autenticacao/logout" title="Sair do sistema" data-action="userLogout" data-logout-msg="Deseja realmente sair do sistema ?">
+                    <i class="fa fa-sign-out"></i>
+                </a>
+            </span>
+        </div>
+        <div id="hide-menu" class="btn-header pull-right">
+            <span>
+                <a href="javascript:void(0);" data-action="toggleMenu" title="Minimizar Menu">
+                    <i class="fa fa-reorder"></i>
+                </a>
+            </span>
+        </div>
+        <div id="fullscreen" class="btn-header transparent pull-right">
+            <span>
+                <a href="javascript:void(0);" data-action="launchFullscreen" title="Tela Cheia">
+                    <i class="fa fa-arrows-alt"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+</header>
+<aside id="left-panel">
+    <div class="login-info">
+            <span>
+                <a href="javascript:void(0);">
+                    <img src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/male.png" alt="me" class="online">
+                    <span>
+                    Instituição de Ensino Superior Versa                    </span>
+                </a>
+            </span>
+    </div>
+    <div id="menuSearch" style="display: block;">
+        <div class="input-group">
+            <input type="search" name="pesMenu" id="pesMenu" class="form-control" placeholder="Pesquisa menu">
+            <div class="input-group-btn">
+                <button disabled="" class="btn btn-default btn-pesquisa" type="button" title="Buscar funcionalidades do menu.">
+                    <i class="fa fa-search icone-pesquisa"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-check"></i>
+                    <span class="menu-item-parent"> Secretaria </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="74" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-aluno"> Alunos </a></li><li><a data-li-active="155" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-aluno-captacao"> Captação de alunos </a></li><li><a data-li-active="105" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-docentes"> Controle de Diários </a></li><li><a data-li-active="73" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/relatorios"> Formulario e Relatórios </a></li><li><a data-li-active="129" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-disciplina"> Gerência de Disciplinas </a></li><li><a data-li-active="410" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-disciplina-iesde"> Gerência de Disciplinas IESDE </a></li><li><a data-li-active="100" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-docente-disciplina"> Gerenciamento de Docências  </a></li><li><a data-li-active="65" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-turma"> Gerenciamento de Turmas </a></li><li><a data-li-active="117" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-area-conhecimento"> Gestão de Áreas de conhecimento </a></li><li><a data-li-active="330" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/questionario"> Gestão de Avaliação por Habilidade e Competências </a></li><li><a data-li-active="128" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acad-curso"> Gestão de Cursos </a></li><li><a data-li-active="243" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-docente"> Gestão de Docentes </a></li><li><a data-li-active="149" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/grade-horaria"> Gestão de Grade Horária </a></li><li><a data-li-active="529" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/gestao-livros-registro"> Gestão de Livros de Registro </a></li><li><a data-li-active="118" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-cadastro-origem"> Gestão de origem de cadastro </a></li><li><a data-li-active="323" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-letivo"> Gestão de Período Letivo </a></li><li><a data-li-active="533" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/grupos-registro"> Gestão dos Grupos de Registro </a></li><li><a data-li-active="84" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/aluno"> Indicadores do Aluno </a></li><li><a data-li-active="107" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-integradora-avaliacao"> Integradora </a></li><li><a data-li-active="527" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/link-captacao"> Links de Captação </a></li><li><a data-li-active="528" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/link-captacao"> Links de Captação </a></li><li><a data-li-active="82" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-matriz-curricular"> Manutenção de Matriz Curricular </a></li><li><a data-li-active="68" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadperiodo-aluno"> Matricula e Rematricula  </a></li><li><a data-li-active="171" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/matricula/acadgeral-motivo-alteracao"> Motivo Alteração </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw  fa-map-marker "></i>
+                    <span class="menu-item-parent"> Organizacao </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="536" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-comunicacao-massa"> Comunicação em Massa </a></li><li><a data-li-active="58" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-campus"> Gerenciar Campus </a></li><li><a data-li-active="123" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-agente-educacional"> Gestão de Agentes Educacionais </a></li><li><a data-li-active="124" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-email-conta"> Gestão de Contas de Email </a></li><li><a data-li-active="125" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-comunicacao-modelo"> Gestão de Modelos de Comunicação </a></li><li><a data-li-active="126" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-comunicacao-tipo"> Gestão de Tipo de Comunicação </a></li><li><a data-li-active="127" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-unidade-estudo"> Gestão de Unidades de Estudo </a></li><li><a data-li-active="109" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/organizacao/org-ies"> Instituição </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-building"></i>
+                    <span class="menu-item-parent"> Infraestrutura </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="59" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/infraestrutura/infra-predio"> Gerenciar Predios </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-pencil"></i>
+                    <span class="menu-item-parent"> Coordenacao </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="102" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/coordenacao/docentes"> Controle de Docências </a></li><li><a data-li-active="408" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/coordenacao/relatorio"> Relatórios </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-cog"></i>
+                    <span class="menu-item-parent"> Notificação </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="341" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/notificacao/not-configuracao"> Configuração </a></li><li><a data-li-active="342" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/notificacao/not-app"> App </a></li><li><a data-li-active="344" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/notificacao/not-evento"> Evento </a></li><li><a data-li-active="343" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/notificacao/not-canal"> Canal </a></li><li><a data-li-active="345" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/notificacao/not-notificacao"> Notificação </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-gavel"></i>
+                    <span class="menu-item-parent"> Extensões  </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="369" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/aluno-nucleo-agendamento"> Gestão de Aluno de Estagio </a></li><li><a data-li-active="339" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/relatorios"> Relatorios </a></li><li><a data-li-active="260" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/aluno-atividades"> Gestão das Atividades  de Estágio do Aluno </a></li><li><a data-li-active="267" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/atividades-complementares"> Gestão das Atividades Complementares do Aluno </a></li><li><a data-li-active="265" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/atividade-periodo-aluno"> Gestão de Atividades Complementares </a></li><li><a data-li-active="266" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/atividade-periodo-evento"> Gestão de Eventos </a></li><li><a data-li-active="264" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/atividade-periodo-letivo"> Gestão do Período Letivo </a></li><li><a data-li-active="259" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/atividades/aluno-nucleo"> Inscrição do Aluno no Estágio </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-unlock"></i>
+                    <span class="menu-item-parent"> Acesso </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="29" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/acesso/acesso-funcionalidades"> Funcionalidades </a></li><li><a data-li-active="30" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/acesso/acesso-grupo"> Grupo de Usuários </a></li><li><a data-li-active="31" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/acesso/acesso-modulos"> Módulos </a></li><li><a data-li-active="33" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/acesso/acesso-sistemas"> Sistemas </a></li><li><a data-li-active="32" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/acesso/acesso-pessoas"> Usuários do Sistema </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-user"></i>
+                    <span class="menu-item-parent"> Pessoa </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="120" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/pessoa/pessoa"> Gestão de Pessoa </a></li><li><a data-li-active="121" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/pessoa/pessoa-fisica"> Gestão de Pessoas Físicas </a></li><li><a data-li-active="122" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/pessoa/pessoa-juridica"> Gestão de Pessoas Jurídicas </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-book"></i>
+                    <span class="menu-item-parent"> Biblioteca </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="301" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/biblioteca-virtual"> Biblioteca Virtual </a></li><li><a data-li-active="92" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/autor"> Cadastro de autores </a></li><li><a data-li-active="85" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/titulo"> Cadastro e edição de Titulos </a></li><li><a data-li-active="91" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/assunto"> Catálogo de Assuntos </a></li><li><a data-li-active="89" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/empresa"> Editoras e Fornecedores </a></li><li><a data-li-active="97" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/relatorio"> Etiquetas e Relatórios </a></li><li><a data-li-active="106" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/exemplar"> Gerência de exemplares de títulos </a></li><li><a data-li-active="98" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/suspensao"> Gerênciar Suspensões </a></li><li><a data-li-active="269" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/grupo-bibliografico"> Grupo Bibliográfico </a></li><li><a data-li-active="270" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/grupo-leitor"> Grupo Leitor </a></li><li><a data-li-active="87" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/area-cnpq"> Listagem de área CNPq </a></li><li><a data-li-active="99" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/multa"> Listagem de Multas </a></li><li><a data-li-active="93" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/setor"> Listagens de setores </a></li><li><a data-li-active="94" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/modalidade-emprestimo"> Modalidades de Empréstimo </a></li><li><a data-li-active="96" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/emprestimo"> Painel de Empréstimo </a></li><li><a data-li-active="86" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/area"> Registro de Áreas </a></li><li><a data-li-active="88" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/pessoa"> Registro de Pessoas e Leitores </a></li><li><a data-li-active="95" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/idioma"> Registros de Idiomas </a></li><li><a data-li-active="90" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/biblioteca/colecao"> Série e Coleção </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-money"></i>
+                    <span class="menu-item-parent"> Financeiro </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="367" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/relatorios"> Relatorios </a></li><li><a data-li-active="412" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-titulo-atualizacao"> Atualização de Títulos em Massa </a></li><li><a data-li-active="151" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-retorno"> Baixa de Titulos Bancarios </a></li><li><a data-li-active="340" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-cupom-desconto"> Configuração de Cupons de Descontos </a></li><li><a data-li-active="504" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-config"> Configurações do Financeiro </a></li><li><a data-li-active="507" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-integracao"> Envio de Movimento Financeiro </a></li><li><a data-li-active="348" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-pgto-cupom"> Gerência de Uso de Cupom de Desconto </a></li><li><a data-li-active="130" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/boleto-banco"> Gestão de Banco </a></li><li><a data-li-active="133" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/boleto"> Gestão de Boletos </a></li><li><a data-li-active="134" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-cheque"> Gestão de Cheques </a></li><li><a data-li-active="132" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/boleto-conf"> Gestão de Configurações de Boleto </a></li><li><a data-li-active="139" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-titulo-config"> Gestão de Configurações de Título </a></li><li><a data-li-active="142" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-valores"> Gestão de Configurações de Valores </a></li><li><a data-li-active="131" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/boleto-conf-conta"> Gestão de Contas Bancárias </a></li><li><a data-li-active="148" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-desconto-titulo"> Gestão de Descontos de títulos </a></li><li><a data-li-active="153" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-filtro"> Gestão de Filtros </a></li><li><a data-li-active="136" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-meio-pagamento"> Gestão de Meios de Pagamento </a></li><li><a data-li-active="137" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-pagamento"> Gestão de Pagamentos </a></li><li><a data-li-active="138" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-remessa"> Gestão de Remessas </a></li><li><a data-li-active="147" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-desconto-tipo"> Gestão de Tipos de Desconto </a></li><li><a data-li-active="141" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-titulo-tipo"> Gestão de Tipos de Título </a></li><li><a data-li-active="334" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-transacoes-cartao"> Gestão de Transações de Cartão </a></li><li><a data-li-active="411" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-retorno-detalhe"> Ocorrências de Arquivos de Retorno </a></li><li><a data-li-active="145" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/painel"> Painel Financeiro </a></li><li><a data-li-active="335" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-boletos"> Registro de Boletos Bancários </a></li><li><a data-li-active="521" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/financeiro-asaas-cobrancas"> Registro de Cobranças ASAAS </a></li><li><a data-li-active="154" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/financeiro/relatorio"> Relatórios </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-exchange"></i>
+                    <span class="menu-item-parent"> Comissionamento </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="531" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comissionamento/gestao-regras-comissionamento"> Gestão de Regras de Comissionamento	 </a></li><li><a data-li-active="523" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comissionamento/comissionamento-processados"> Comissionamentos Processados </a></li><li><a data-li-active="522" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comissionamento/comissionamento-pessoa-vinculo"> Gestão de pessoas comissionadas </a></li><li><a data-li-active="525" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comissionamento/comissionamento-asaas-conta"> Gestão de Registro de Contas Asaas </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-money"></i>
+                    <span class="menu-item-parent"> Tesouraria </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="63" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/boleto"> Boletos </a></li><li><a data-li-active="62" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/boleto-conf"> Configurações de Boleto </a></li><li><a data-li-active="60" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/boleto-conf-conta"> Configurações de Contas Bancarias </a></li><li><a data-li-active="80" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/financeiro"> Financeiro </a></li><li><a data-li-active="66" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/financeiro-titulo"> Gerenciamento de Boletos </a></li><li><a data-li-active="71" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/financeiro-desconto"> Gestão de Descontos </a></li><li><a data-li-active="103" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/pagamento-lote"> Pagamento em Lote </a></li><li><a data-li-active="81" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/boleto-bancario/financeiro-relatorios"> Relatórios Gerenciais  </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-gears"></i>
+                    <span class="menu-item-parent"> Sistema </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="524" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-integracao-curso"> Gestão de Registros de Integração </a></li><li><a data-li-active="466" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-fila-conclusao"> Gestão de Solicitação de Conclusão de Curso </a></li><li><a data-li-active="240" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/atividades-complementares"> Atividades Complementares </a></li><li><a data-li-active="303" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-campo-personalizado"> Gestão de Campo Personalizado </a></li><li><a data-li-active="115" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-config"> Gestão de Configurações </a></li><li><a data-li-active="302" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-campo-entidade"> Gestão de Entidades de Campos </a></li><li><a data-li-active="413" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-fila-titulo-atualizacao"> Gestão de Fila de Atualização de Título </a></li><li><a data-li-active="110" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-fila-email"> Gestão de Fila de Email </a></li><li><a data-li-active="111" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-fila-integracao"> Gestão de Fila de Integração </a></li><li><a data-li-active="112" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-fila-sms"> Gestão de Fila de SMS </a></li><li><a data-li-active="113" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-integracao"> Gestão de Integração </a></li><li><a data-li-active="114" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-robo"> Gestão de Robô </a></li><li><a data-li-active="304" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-campo-tipo"> Gestão de Tipos de Campo Personalizado </a></li><li><a data-li-active="535" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-integracao-massa"> Integração em Massa </a></li><li><a data-li-active="318" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-logs-acesso"> Logs de Acesso </a></li><li><a data-li-active="319" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-logs-auditoria"> Logs de Auditoria </a></li><li><a data-li-active="239" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/sistema/sis-config-painel"> Painel de Configurações </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-group"></i>
+                    <span class="menu-item-parent"> Avaliacao </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="244" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-fim"> Gestão de fim </a></li><li><a data-li-active="245" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questao"> Gestão de questão </a></li><li><a data-li-active="246" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questao-aplicacao"> Gestão de questão aplicação </a></li><li><a data-li-active="247" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questao-resposta"> Gestão de questão resposta </a></li><li><a data-li-active="248" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questao-tipo"> Gestão de questão tipo </a></li><li><a data-li-active="249" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questionario"> Gestão de questionario </a></li><li><a data-li-active="250" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questionario-grupo"> Gestão de questionario grupo </a></li><li><a data-li-active="251" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questionario-questao"> Gestão de questionario questão </a></li><li><a data-li-active="252" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-questionario-respondente"> Gestão de questionario respondente </a></li><li><a data-li-active="253" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-respondente-resposta"> Gestão de respondente resposta </a></li><li><a data-li-active="254" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-respondente-resposta-concluida"> Gestão de respondente resposta concluida </a></li><li><a data-li-active="255" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/avaliacao/avaliacao-secao"> Gestão de seção </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-group"></i>
+                    <span class="menu-item-parent"> Comunicacao </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="273" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comunicacao/comunicacao-campanha"> Gestão de campanha </a></li><li><a data-li-active="274" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comunicacao/comunicacao-campanha-estatistica"> Gestão de campanha estatistica </a></li><li><a data-li-active="275" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/comunicacao/comunicacao-campanha-regra"> Gestão de campanha regra </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-file"></i>
+                    <span class="menu-item-parent"> Documentos </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="416" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-vincular-massa"> Atribuição de Documentos em Massa </a></li><li><a data-li-active="509" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-config"> Configuração dos Documentos </a></li><li><a data-li-active="337" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-aluno"> Gestão de Documentos de Aluno </a></li><li><a data-li-active="161" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-grupo"> Gestão de Documentos de Grupos </a></li><li><a data-li-active="372" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-requerido"> Gestão de Documentos Requeridos </a></li><li><a data-li-active="338" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-grupo-novo"> Gestão de Grupo de Documentos </a></li><li><a data-li-active="374" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-imagem"> Gestão de Imagens de Documentos </a></li><li><a data-li-active="162" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-modelo"> Gestão de Modelos de Documentos </a></li><li><a data-li-active="163" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-tipo"> Gestão de Tipos de Documentos </a></li><li><a data-li-active="160" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-emissao"> Histórico de Documentos Emitidos </a></li><li><a data-li-active="370" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/documentos/documento-grupo-regra"> Parametrização dos Registros para Entrega </a></li></ul></li><li class="open"><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-ticket"></i>
+                    <span class="menu-item-parent"> Protocolo </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul style="display:block"><li><a data-li-active="234" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-mensagem-padrao"> Gestão de Mensagens Padrão de Protocolo </a></li><li><a data-li-active="233" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo"> Gestão de Protocolos </a></li><li><a data-li-active="235" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-setor"> Gestão de Setores </a></li><li class="active"><a data-li-active="237" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao"> Gestão de Solicitações </a></li><li><a data-li-active="238" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-vinculado"> Meus Protocolos </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa fa-group"></i>
+                    <span class="menu-item-parent"> CRM </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="357" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-lead-atendimento"> Atendimento de Leads </a></li><li><a data-li-active="505" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-config"> Configurações de Vendas e CRM </a></li><li><a data-li-active="358" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-lead-atividade"> Gestão de Atividades de Leads </a></li><li><a data-li-active="350" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-campanha"> Gestão de Campanhas </a></li><li><a data-li-active="351" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-fonte"> Gestão de Fontes </a></li><li><a data-li-active="352" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-interesse"> Gestão de Interesses </a></li><li><a data-li-active="356" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-lead"> Gestão de Leads </a></li><li><a data-li-active="518" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-aluno"> Gestão de Matrículas do Time </a></li><li><a data-li-active="349" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-mediador"> Gestão de Mediadores </a></li><li><a data-li-active="354" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-operador"> Gestão de Operadores </a></li><li><a data-li-active="355" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-time"> Gestão de Times </a></li><li><a data-li-active="353" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-atividade-tipo"> Gestão de Tipos de Atividade </a></li><li><a data-li-active="365" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/crm/crm-relatorios"> Relatórios </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-graduation-cap"></i>
+                    <span class="menu-item-parent"> Vestibular </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="501" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/selecao-tipo-captacao"> Cadastro de Meios de Captação </a></li><li><a data-li-active="70" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/formularios"> Formulários e Relatórios </a></li><li><a data-li-active="57" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/selecao-inscricao"> Gerencia de Candidatos </a></li><li><a data-li-active="378" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/selecao-grupo-questoes"> Gestão de Grupo de Questões </a></li><li><a data-li-active="380" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/selecao-questoes"> Gestão de Questões </a></li><li><a data-li-active="56" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/selecao-edicao"> Gestão do Processo Seletivo </a></li><li><a data-li-active="67" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/lista-aprovados"> Listagem de Aprovados </a></li><li><a data-li-active="332" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/inscricao-cursos"> Opções de curso de candidato </a></li><li><a data-li-active="69" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/vestibular/dashboard"> Painel Gerencial  </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-book"></i>
+                    <span class="menu-item-parent"> Provas </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="61" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/provas/prova-caderno"> Caderno de Provas </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw fa-th-large"></i>
+                    <span class="menu-item-parent"> Professor </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="72" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/professor/disciplinas"> Disciplinas </a></li></ul></li><li><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">
+                    <i class="fa fa-lg fa-fw Alunos"></i>
+                    <span class="menu-item-parent"> Aluno </span>
+                <b class="collapse-sign"><em class="fa fa-plus-square-o"></em></b></a><ul><li><a data-li-active="312" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/aluno/atividades"> Atividades Complementares e Estágio do Aluno </a></li><li><a data-li-active="101" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/aluno/disciplinas"> Disciplinas Alunos </a></li><li><a data-li-active="214" data-li-type="func" href="https://universa.sprint.sistemauniversa.com.br/aluno/financeiro"> Financeiro do módulo do Aluno </a></li></ul></li></ul>    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>
+<div id="main" role="main">
+    <div id="content">
+        <div class="row">
+            <div id="ribbon">
+                    <span class="ribbon-button-alignment">
+                        <span class="btn btn-ribbon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </span>
+                <ol class="breadcrumb">
+                    <li>Protocolo</li>
+                    <li>Solicitações</li>
+                    <li>Listagem</li>
+                </ol>
+            </div>
+            <div id="log-message"></div>
+            <div id="widget-grid" class="">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-darken ">
+                <div class="widget-body" id="container-protocolo-solicitacao">
+                    <div id="dataTableProtocoloSolicitacao_wrapper" class="dataTables_wrapper form-inline no-footer"><div id="dataTableProtocoloSolicitacao_filter" class="dataTables_filter"><label>Procurar: <input type="search" class="form-control" aria-controls="dataTableProtocoloSolicitacao"></label></div><div id="dataTableProtocoloSolicitacao_processing" class="dataTables_processing" style="display: none;"><i class="fa fa-lg fa-spinner fa-spin"></i></div><table id="dataTableProtocoloSolicitacao" class="table table-striped table-bordered table-hover dataTable no-footer" width="100%" role="grid" aria-describedby="dataTableProtocoloSolicitacao_info" style="width: 100%;">
+                        <thead>
+                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTableProtocoloSolicitacao" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Código: activate to sort column ascending" style="width: 180.889px;">Código</th><th class="sorting" tabindex="0" aria-controls="dataTableProtocoloSolicitacao" rowspan="1" colspan="1" aria-label="Setor: activate to sort column ascending" style="width: 257.889px;">Setor</th><th class="sorting" tabindex="0" aria-controls="dataTableProtocoloSolicitacao" rowspan="1" colspan="1" aria-label="Descrição: activate to sort column ascending" style="width: 294.889px;">Descrição</th><th class="sorting" tabindex="0" aria-controls="dataTableProtocoloSolicitacao" rowspan="1" colspan="1" aria-label="Visibilidade: activate to sort column ascending" style="width: 310.889px;">Visibilidade</th><th class="sorting" tabindex="0" aria-controls="dataTableProtocoloSolicitacao" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 111px;"></th></tr>
+                        </thead>
+                        <tbody><tr role="row" class="odd"><td class="sorting_1">0000000001</td><td>TESTE</td><td>TESTE SOLICITAÇÃO</td><td>Aluno,Externo,Interno</td><td><div class="text-center"><div class="btn-group"><button type="button" class="btn btn-xs btn-primary item-edit" data-target="#" data-toggle="#"><i class="fa fa-pencil fa-inverse"></i></button>
+<button type="button" class="btn btn-xs btn-danger item-remove" data-target="#" data-toggle="#"><i class="fa fa-times fa-inverse"></i></button></div></div></td></tr><tr role="row" class="even"><td class="sorting_1">0000000002</td><td>Teste - João Pedro</td><td>Teste de Solicitação</td><td>Aluno,Externo,Interno</td><td><div class="text-center"><div class="btn-group"><button type="button" class="btn btn-xs btn-primary item-edit" data-target="#" data-toggle="#"><i class="fa fa-pencil fa-inverse"></i></button>
+<button type="button" class="btn btn-xs btn-danger item-remove" data-target="#" data-toggle="#"><i class="fa fa-times fa-inverse"></i></button></div></div></td></tr><tr role="row" class="odd"><td class="sorting_1">0000000003</td><td>Teste - João Pedro</td><td>Teste de Protocolo Jc</td><td>Aluno,Externo,Interno</td><td><div class="text-center"><div class="btn-group"><button type="button" class="btn btn-xs btn-primary item-edit" data-target="#" data-toggle="#"><i class="fa fa-pencil fa-inverse"></i></button>
+<button type="button" class="btn btn-xs btn-danger item-remove" data-target="#" data-toggle="#"><i class="fa fa-times fa-inverse"></i></button></div></div></td></tr></tbody>
+                    </table><div class="dt-toolbar-footer"><div class="col-sm-6"><div class="dataTables_info" id="dataTableProtocoloSolicitacao_info" role="status" aria-live="polite">Mostrando 1 / 3 de 3 registro(s)</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_simple_numbers" id="dataTableProtocoloSolicitacao_paginate"><ul class="pagination pagination-sm"><li class="paginate_button previous disabled" aria-controls="dataTableProtocoloSolicitacao" tabindex="0" id="dataTableProtocoloSolicitacao_previous"><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">Anterior</a></li><li class="paginate_button active" aria-controls="dataTableProtocoloSolicitacao" tabindex="0"><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">1</a></li><li class="paginate_button next disabled" aria-controls="dataTableProtocoloSolicitacao" tabindex="0" id="dataTableProtocoloSolicitacao_next"><a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#">Próximo</a></li></ul></div></div></div></div>
+                    <footer class="text-center">
+                        <a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao/add" class="btn btn-primary" id="btn-protocolo-solicitacao-add">
+                            Novo Registro
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade in" data-keyboard="false" data-backdrop="static" id="protocolo-solicitacao-modal" role="dialog" aria-labelledby="label" aria-hidden="false" style="display: block;"><div class="modal-backdrop fade in" style="height: 772px;"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Cadastrar solicitação</h4>
+            </div>
+            <div class="modal-body floating-label">
+                <section id="widget-grid" class="">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-darken">
+                                    <form action="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao/add" id="protocolo-solicitacao-form" novalidate="novalidate" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="solicitacaoId" id="solicitacaoId" value="">
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="setor">Nome do Setor:</label>
+                                <div class="select2-container form-control select2-allowclear" id="s2id_setor"><a href="javascript:void(0)" class="select2-choice" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-1">Biblioteca do Adão</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a><label for="s2id_autogen1" class="select2-offscreen">Nome do Setor:</label><input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-1" id="s2id_autogen1"></div><input type="text" name="setor" id="setor" class="form-control" placeholder="Nome do Setor" maxlength="10" tabindex="-1" title="Nome do Setor:" style="display: none;">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="solicitacaoDescricao">Descrição:</label>
+                                <input type="text" name="solicitacaoDescricao" id="solicitacaoDescricao" class="form-control" placeholder="Descrição" maxlength="200" value="">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="solicitacaoTempoSolucao">Tempo para solução:</label>
+                                <input type="text" name="solicitacaoTempoSolucao" id="solicitacaoTempoSolucao" class="form-control" placeholder="Tempo de solução" maxlength="11">
+                                <p id="tempoSolucaoPorExtenso" style="font-size: 11px;">2 dia(s) e 0 horas(s) e 0 minuto(s).</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="solicitacaoVisibilidade">Visibilidade:</label>
+                                <div class="select2-container select2-container-multi form-control" id="s2id_solicitacaoVisibilidade"><ul class="select2-choices">  <li class="select2-search-choice">    <div>Aluno (Portal Do Aluno Universa)</div>    <a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-choice">    <div>Externo (Ambiente Virtual de Aprendizagem)</div>    <a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-choice">    <div>Interno (Gestão de Protocolos Universa)</div>    <a href="https://universa.sprint.sistemauniversa.com.br/protocolo/protocolo-solicitacao#" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <label for="s2id_autogen2" class="select2-offscreen">Visibilidade:</label>    <input type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input select2-focused" id="s2id_autogen2" placeholder="" style="width: 243px;" aria-activedescendant="select2-result-label-18">  </li></ul></div><select name="solicitacaoVisibilidade[]" id="solicitacaoVisibilidade" class="form-control" multiple="" tabindex="-1" style="display: none;">
+                                    <option value="Aluno">Aluno (Portal Do Aluno Universa)</option><option value="Externo">Externo (Ambiente Virtual de Aprendizagem)</option><option value="Interno">Interno (Gestão de Protocolos Universa)</option>                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <div class="form-group">
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                                </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.sound_path = '/smart-admin/sound/';
+        $.protocoloSolicitacaoAdd({
+            ajaxSubmit: 1,
+            listagem: 1,
+            url: {protocoloSetor: '/protocolo/protocolo-setor/search-for-json'},
+            data: {},
+            value: {setor:null},
+        });
+    });
+</script>            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.sound_path = '/smart-admin/sound/';
+        $.protocoloSolicitacaoIndex({
+            url: {
+                search: '/protocolo/protocolo-solicitacao/search',
+                edit: '/protocolo/protocolo-solicitacao/edit',
+                remove: '/protocolo/protocolo-solicitacao/remove'
+            }
+        });
+    });
+</script>        </div>
+    </div>
+</div>
+<div class="page-footer">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <span class="txt-color-white">Versa Tecnologia © 2022</span>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.dataTables.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/dataTables.colVis.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/dataTables.tableTools.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/dataTables.bootstrap.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/versa.skeleton.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.maskedinput.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/app.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/SmartNotification.min.js(1).download"></script><div id="divSmallBoxes"></div><div id="divMiniIcons"></div><div id="divbigBoxes"></div>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.dataTables.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.toaster.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/versa.shared.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/protocolo-solicitacao-index.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery-migrate-1.2.1.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/select2.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/select2_locale_pt-BR.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.validate.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.validate.extra.br.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/messages_pt_BR.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.inputmask.bundle.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.serializejson.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.deserialize.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/datepicker-pt-BR.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/jquery.formatDateTime.min.js.download"></script>
+<script type="text/javascript" src="./Protocolo _ Solicitações _ Listagem - Universa - Sprint_files/protocolo-solicitacao-add.js.download"></script>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "" + "/acesso/acesso-sistemas/permissao-busca-menu",
+            type: 'post',
+            async: false,
+            data: {layout: false},
+            success: function (res) {
+                $('#menuSearch').css('display', 'none');
+                if(res.success){
+                    $('#menuSearch').css('display', 'block');
+                } else {
+
+                }
+            }
+        });
+
+        $("#exibe_senha_troca").mousedown(function () {
+            document.getElementById('novaSenhaTroca').type = 'text'
+            document.getElementById('confirmNovaSenhaTroca').type = 'text'
+            document.getElementById('exibe_senha_troca').style.display = 'none'
+            document.getElementById('ocultar_senha_troca').style.display = 'inline'
+        });
+
+        $("#ocultar_senha_troca").mouseup(function () {
+            document.getElementById('novaSenhaTroca').type = 'password'
+            document.getElementById('confirmNovaSenhaTroca').type = 'password'
+            document.getElementById('exibe_senha_troca').style.display = 'inline'
+            document.getElementById('ocultar_senha_troca').style.display = 'none'
+        });
+
+        $('#pesMenu').keyup(function(e) {
+            let pesquisa = e.currentTarget.value;
+            let funcionalidades = $('[data-li-type]');
+            pesquisa = pesquisa.toLowerCase();
+            funcionalidades.parent().parent().parent().hide();
+
+            if(pesquisa.length > 0){
+                for (let i = 0; i < funcionalidades.length; i++) {
+                    const funcionalidade = $(funcionalidades[i]).parent().parent().parent();
+                    if(!funcionalidades[i].innerHTML.toLowerCase().includes(pesquisa)) {
+                        $(funcionalidades[i]).hide();
+                        const funcionalidadeEncontrada = funcionalidade.hasClass('funcionalidade-encontrada');
+    
+                        if(!funcionalidadeEncontrada){
+                            funcionalidade.hide();
+                        }
+                    } else {
+                        $(funcionalidades[i]).show();
+                        funcionalidade.show();
+                        $(funcionalidades[i]).parent().parent().css("display", "block");
+                        funcionalidade.addClass('funcionalidade-encontrada');
+                    }
+                }
+            } else {
+                funcionalidades.parent().parent().css("display", "none");
+                funcionalidades.parent().parent().parent().show();
+                funcionalidades.show();
+            }
+        });
+
+        $("#confSenha").addClass("hidden");
+        /*Atualiza informação de senha*/
+        $("#novaSenhaTroca").keyup(function () {
+            nivelSenha($("#novaSenhaTroca").val());
+        });
+        $("#confirmNovaSenhaTroca").keyup(function () {
+            var confim = $("#confirmNovaSenhaTroca").val(),
+                pass = $("#novaSenhaTroca").val();
+            $("#confSenha").removeClass("hidden");
+
+            if (confim == pass) {
+                $("#confSenha").addClass("hidden");
+            }
+        });
+
+        $(".nivelSenha").attr("style", "color:red");
+        $("#nivelSenha").attr("style", "color:black").text(' -');
+
+        if (false) {
+            var icon = "<i class='fa-fw fa fa-exclamation'></i>";
+            var message = "<strong>Aviso: </strong> " + ' É necessário alterar sua senha para continuar usando o sistema !';
+
+            $('#myModalLabel').css('display', 'block');
+            $("#alert-message").addClass('alert alert-danger fade in').html(icon + message);
+            $("#modal-trocar-senha").modal("show");
+        }
+
+        $spine().autocompleteAjax({baseUrl: window.baseUrl});
+        $spine().validateForm();
+
+        //Habilitando funcionalidade atual;
+        var pathname = window.location.pathname;
+        var funcAtual = pathname.split('/');
+
+        if ($.inArray('vestibular', funcAtual) != -1 && $.inArray('v2', funcAtual) != -1) {
+            var posicao = $.inArray('v2', funcAtual);
+            funcAtual.splice(posicao, 1);
+            pathname = funcAtual.join("/");
+            funcAtual = pathname.split('/');
+        }
+
+        var $link = $("a[href='" + pathname + "']");
+
+        while ($link.length == 0 && funcAtual.length > 0) {
+            funcAtual = funcAtual.slice(0, funcAtual.length - 1);
+            $link = $("a[href^='" + funcAtual.join('/') + "']:first");
+        }
+
+        if ($link.length > 0) {
+            $link
+                .parent()
+                .addClass('active')
+                .parent()
+                .attr('style', 'display:block')
+                .parent()
+                .addClass('open');
+        }
+
+        pageSetUp();
+
+        $("#trocar-senha-modal").on("click", function (e) {
+            var senha = $('#novaSenhaTroca').val();
+            var senhaValida = validaSenha(senha);
+
+            if (senhaValida !== true) {
+                var message = "<strong>Erro:</strong> " + senhaValida || 'Senha inválida, tente novamente!';
+                var icon = "<i class='fa-fw fa fa-times'></i>";
+                $('#myModalLabel').css('display', 'block');
+
+                $("#alert-message").addClass('alert alert-danger fade in').html(icon + message);
+                e.stopImmediatePropagation();
+                return false;
+            }
+
+            if (senha == $('#confirmNovaSenhaTroca').val()) {
+                if ($('#senhaTroca').val() !== "" || $('#novaSenhaTroca').val() !== "" || $('#confirmNovaSenhaTroca').val() !== "") {
+                    var icon = "<i class='fa-fw fa fa-check'></i>";
+                    var message = "<strong>Aviso</strong> " + 'alterando senha.';
+
+                    $('#myModalLabel').css('display', 'block');
+                    $("#alert-message").addClass('alert alert-warning fade in').html(icon + message);
+
+                    var urlAlteraSenha = '/acesso/acesso-pessoas/altera-senha';
+                    var dados = $('#formAlterarSenha').serialize();
+
+                    $.ajax({
+                        url: urlAlteraSenha,
+                        type: 'GET',
+                        data: dados,
+                        dataType: 'json',
+                        success: function (data) {
+                            var type = data.type;
+                            var button = "<button class='close' data-dismiss='alert'>×</button>";
+                            $("#alert-message").removeClass();
+
+                            if (type == 'warning') {
+                                var message = "<strong>Aviso:</strong> " + data.message;
+                                var icon = "<i class='fa-fw fa fa-warning'></i>";
+
+                                $("#alert-message").addClass('alert alert-warning fade in').html(button + icon + message);
+
+                            } else if (type == 'success') {
+                                $(".nivelSenha").attr("style", "color:red");
+                                $("#nivelSenha").attr("style", "color:black").text(' -');
+
+                                var message = "<strong>Sucesso:</strong> " + data.message;
+                                var icon = "<i class='fa-fw fa fa-check'></i>";
+
+                                $("#alert-message").addClass('alert alert-success fade in').html(button + icon + message);
+                                $("#novaSenhaTroca, #confirmNovaSenhaTroca, #senhaTroca").val('').change();
+
+                                $.SmartMessageBox({
+                                    title: "Senha alterada com sucesso:",
+                                    content: 'Você será direcionado para Interface Inicial',
+                                    buttons: "[Voltar a Inteface Inicial]",
+                                }, function (ButtonPress) {
+                                    window.location.href = "/acesso/autenticacao/logout";
+                                });
+
+                                setTimeout(function(){
+                                    window.location.href = "/acesso/autenticacao/logout";
+                                }, 5000);
+
+                            } else if (type == 'error') {
+
+                                var message = "<strong>Erro:</strong> " + data.message;
+                                var icon = "<i class='fa-fw fa fa-times'></i>";
+
+                                $("#alert-message").addClass('alert alert-danger fade in').html(button + icon + message);
+                            }
+
+                            $("#myModalLabel").show("slow");
+                        },
+                        beforeSend: function () {
+                            $('#ajaxLoad').css({display: "block"});
+                        },
+                        complete: function () {
+                            $('#ajaxLoad').css({display: "none"});
+                        }
+                    });
+                } else {
+                    var message = "<strong>Aviso:</strong> " + 'preencha todos os campos!';
+
+                    $('#myModalLabel').css('display', 'block');
+                    $("#alert-message").addClass('alert alert-warning fade in').html(message);
+                }
+            } else {
+                var message = "<strong>Aviso:</strong> " + 'confirmação de senha incorreta!';
+
+                $('#myModalLabel').css('display', 'block');
+                $("#alert-message").addClass('alert alert-warning fade in').html(message);
+            }
+        });
+    });
+    nivelSenha = function (senha) {
+        var forca = 0;
+
+        if ((senha.length >= 4) && (senha.length <= 7)) {
+            forca += 10;
+        } else if (senha.length > 7) {
+            forca += 25;
+        }
+        if (senha.match(/[a-z]+/)) {
+            forca += 10;
+        }
+        if (senha.match(/[A-Z]+/)) {
+            forca += 20;
+        }
+        if (senha.match(/[0-9]+/)) {
+            forca += 20;
+        }
+        if (senha.match(/[^a-zA-Z 0-9]+/g)) {
+            forca += 25;
+        }
+
+        var nivelSenhaIcone = $(".nivelSenha"),
+            nivelSenhaText = $("#nivelSenha");
+
+        nivelSenhaIcone.attr("style", "color:red");
+
+        if (forca < 25) {
+            nivelSenhaText.text(' Muito Fraca');
+            nivelSenhaIcone.attr("style", "color:orange");
+        } else if (forca > 24 && forca < 50) {
+            nivelSenhaText.text(' Fraca');
+            nivelSenhaIcone.attr("style", "color:yellow");
+        } else if (forca > 49 && forca < 75) {
+            nivelSenhaIcone.attr("style", "color:black");
+            nivelSenhaText.text(' Média');
+        } else if (forca > 74 && forca < 90) {
+            nivelSenhaIcone.attr("style", "color:black");
+            nivelSenhaText.attr("style", "color:blue").text(' Forte');
+        } else if (forca > 89) {
+            nivelSenhaText.attr("style", "color:green").text(' Muito Forte');
+            nivelSenhaIcone.attr("style", "color:black");
+        }
+    };
+
+    validaSenha = function (senha) {
+        var erro = [],
+            arrValido ={"exigeNumero":0,"qtdDigitos":8,"exigeLetraMaiuscula":0,"exigeCaracterEspecial":0};
+
+        if (!senha) {
+            return "Nenhuma senha informada";
+        }
+
+        if (arrValido.exigeLetraMaiuscula * 1 && !senha.match(/[A-Z]+/)) {
+            erro.push('letra maiúscula');
+        }
+
+        if (arrValido.exigeNumero * 1 && !senha.match(/[0-9]+/)) {
+            erro.push('número');
+        }
+
+        if (arrValido.exigeCaracterEspecial * 1 && !senha.match(/[^a-zA-Z 0-9]+/g)) {
+            erro.push('carácter especial');
+        }
+
+        arrValido.qtdDigitos = arrValido.qtdDigitos * 1;
+        if (arrValido.qtdDigitos && (senha.length) < arrValido.qtdDigitos) {
+            erro.push('senha com ' + arrValido.qtdDigitos + ' dígitos');
+        }
+
+        if (JSON.stringify(erro) != '[]') {
+            return "Por favor informe pelo menos 1: " + (erro.join(', '));
+        }
+
+        return true;
+    };
+</script>
+
+<div class="modal fade" data-keyboard="false" data-backdrop="static" id="modal-trocar-senha" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" name="recovery-password" id="formAlterarSenha" data-toggle="validator">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">
+                        Alteração de senha
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="display: none" id="myModalLabel">
+                        <div id="alert-message">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="senhaTroca">Senha atual:</label>
+                        <input type="password" name="senha" class="form-control" id="senhaTroca" autocomplete="off" readonly="" onfocus="this.removeAttribute(&#39;readonly&#39;);">
+                    </div>
+                    <div class="form-group">
+                        <a class="pull-right" title="Nível de segurança de senha.">
+                            <i style="color:red" class="fa far fa-exclamation-triangle nivelSenha" aria-hidden="true"></i>
+                            <span id="nivelSenha" style="color:black"> -</span>
+                        </a>
+                        <label for="novaSenhaTroca">Nova senha:</label>
+                        <input type="password" name="novaSenha" class="form-control" id="novaSenhaTroca" autocomplete="off" readonly="" onfocus="this.removeAttribute(&#39;readonly&#39;);">
+                    </div>
+                    <div class="form-group">
+                        <a class="pull-right">
+                            <span id="confSenha" style="color:  black;font-weight: bold;" class="hidden">As senhas não conferem!</span>
+                        </a>
+
+                        <label for="confirmNovaSenhaTroca">Confirmação da nova senha:</label>
+                        <input type="password" name="confirmNovaSenha" class="form-control" id="confirmNovaSenhaTroca" autocomplete="off" readonly="" onfocus="this.removeAttribute(&#39;readonly&#39;);">
+                    </div>
+
+                    <h7 id="exibe_senha" style="float: right">Visualizar senha:
+                        <i id="exibe_senha_troca" class="icon-append fa fa-eye"></i>
+                        <i id="ocultar_senha_troca" style="display: none" class="icon-append fa fa-eye-slash"></i>
+                    </h7>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="trocar-senha-modal" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<span role="status" aria-live="polite" class="select2-hidden-accessible"></span><script type="text/javascript" src="chrome-extension://cjfdbemmaeeohgibnhdhlakiahifjjcf/injected.js"></script><div class="select2-drop select2-display-none select2-with-searchbox select2-drop-active" style="left: 483.542px; width: 532px; top: 163.51px; bottom: auto; display: none;">   <div class="select2-search">       <label for="s2id_autogen1_search" class="select2-offscreen">Nome do Setor:</label>       <input type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-1" id="s2id_autogen1_search" placeholder="" aria-activedescendant="select2-result-label-3">   </div>   <ul class="select2-results" role="listbox" id="select2-results-1"></ul></div><div class="select2-sizer" style="position: absolute; left: -10000px; top: -10000px; display: none; font-size: 13px; font-family: sans-serif; font-style: normal; font-weight: 400; letter-spacing: normal; text-transform: none; white-space: nowrap;"></div><div id="select2-drop-mask" class="select2-drop-mask" style="display: none;"></div><div class="select2-drop select2-drop-multi select2-display-none select2-drop-active" style="left: 483.542px; width: 532px; top: 449.941px; bottom: auto; display: none;">   <ul class="select2-results"></ul></div></body></html>

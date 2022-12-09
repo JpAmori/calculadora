@@ -1,0 +1,488 @@
+jQuery.validator.addMethod("cnpj", function (cnpj, element) {
+    cnpj = jQuery.trim(cnpj);
+
+    cnpj = cnpj.replace('/', '');
+    cnpj = cnpj.replace('.', '');
+    cnpj = cnpj.replace('.', '');
+    cnpj = cnpj.replace('-', '');
+
+    var numeros, digitos, soma, i, resultado, pos, tamanho, digitos_iguais;
+    digitos_iguais = 1;
+
+    if (cnpj.length < 14 && cnpj.length < 15) {
+        return this.optional(element) || false;
+    }
+
+    for (i = 0; i < cnpj.length - 1; i++) {
+        if (cnpj.charAt(i) != cnpj.charAt(i + 1)) {
+            digitos_iguais = 0;
+            break;
+        }
+    }
+
+    if (!digitos_iguais) {
+        tamanho = cnpj.length - 2
+        numeros = cnpj.substring(0, tamanho);
+        digitos = cnpj.substring(tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+
+        for (i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+
+            if (pos < 2) {
+                pos = 9;
+            }
+        }
+
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+        if (resultado != digitos.charAt(0)) {
+            return this.optional(element) || false;
+        }
+
+        tamanho = tamanho + 1;
+        numeros = cnpj.substring(0, tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+
+        for (i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+
+            if (pos < 2) {
+                pos = 9;
+            }
+        }
+
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+        if (resultado != digitos.charAt(1)) {
+            return this.optional(element) || false;
+        }
+
+        return this.optional(element) || true;
+    } else {
+        return this.optional(element) || false;
+    }
+}, "Informe um CNPJ válido.");
+
+jQuery.validator.addMethod("cpf", function (value, element) {
+    value = jQuery.trim(value);
+    value = value.replace('.', '');
+    value = value.replace('.', '');
+    var cpf = value.replace('-', '');
+
+    while (cpf.length < 11) {
+        cpf = "0" + cpf;
+    }
+
+    var expReg = /^0+$|^1+$|^2+$|^3+$|^4+$|^5+$|^6+$|^7+$|^8+$|^9+$/;
+    var a = [];
+    var b = new Number;
+    var c = 11;
+
+    for (i = 0; i < 11; i++) {
+        a[i] = cpf.charAt(i);
+        if (i < 9) {
+            b += (a[i] * --c);
+        }
+    }
+
+    if ((x = b % 11) < 2) {
+        a[9] = 0
+    } else {
+        a[9] = 11 - x
+    }
+
+    b = 0;
+    c = 11;
+
+    for (y = 0; y < 10; y++) {
+        b += (a[y] * c--);
+    }
+
+    if ((x = b % 11) < 2) {
+        a[10] = 0;
+    } else {
+        a[10] = 11 - x;
+    }
+
+    if ((cpf.charAt(9) != a[9]) || (cpf.charAt(10) != a[10]) || cpf.match(expReg)) {
+        return this.optional(element) || false;
+    }
+
+    return this.optional(element) || true;
+}, "Informe um CPF válido.");
+
+jQuery.validator.addMethod("dateBR", function (value, element) {
+    if (value.length != 10) {
+        return (this.optional(element) || false);
+    }
+
+    var data = value;
+    var dia = data.substr(0, 2);
+    var barra1 = data.substr(2, 1);
+    var mes = data.substr(3, 2);
+    var barra2 = data.substr(5, 1);
+    var ano = data.substr(6, 4);
+
+    if (data.length != 10 || barra1 != "/" || barra2 != "/" || isNaN(dia) || isNaN(mes) || isNaN(ano) || dia > 31 || mes > 12) {
+        return (this.optional(element) || false);
+    }
+
+    if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia == 31) {
+        return (this.optional(element) || false);
+    }
+
+    if (mes == 2 && (dia > 29 || (dia == 29 && ano % 4 != 0))) {
+        return (this.optional(element) || false);
+    }
+
+    if (ano < 1900) {
+        return (this.optional(element) || false);
+    }
+
+    return (this.optional(element) || true);
+}, "Informe uma data válida");
+
+jQuery.validator.addMethod("datetimeBR", function (value, element) {
+    if (value.length != 16) {
+        return (this.optional(element) || false);
+    }
+
+    if (value.substr(10, 1) != ' ') {
+        return (this.optional(element) || false);
+    }
+
+    var arrOpcoes = value.split(' ');
+
+    if (arrOpcoes.length != 2) {
+        return (this.optional(element) || false);
+    }
+
+    var data = arrOpcoes[0];
+    var dia = data.substr(0, 2);
+    var barra1 = data.substr(2, 1);
+    var mes = data.substr(3, 2);
+    var barra2 = data.substr(5, 1);
+    var ano = data.substr(6, 4);
+
+    if (data.length != 10 || barra1 != "/" || barra2 != "/" || isNaN(dia) || isNaN(mes) || isNaN(ano) || dia > 31 || mes > 12) {
+        return (this.optional(element) || false);
+    }
+
+    if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia == 31) {
+        return (this.optional(element) || false);
+    }
+
+    if (mes == 2 && (dia > 29 || (dia == 29 && ano % 4 != 0))) {
+        return (this.optional(element) || false);
+    }
+
+    var horario = arrOpcoes[1];
+    var hora = horario.substr(0, 2);
+    var doispontos = horario.substr(2, 1);
+    var minuto = horario.substr(3, 2);
+
+    if (horario.length != 5 || isNaN(hora) || isNaN(minuto) || hora > 23 || minuto > 59 || doispontos != ":") {
+        return (this.optional(element) || false);
+    }
+
+    return this.optional(element) || true;
+
+}, "Informe uma data e uma hora válida");
+
+jQuery.validator.addMethod("timerbr", function (value, element) {
+    if (value.length != 8) {
+        return false;
+    }
+
+    var data = value;
+    var hor = data.substr(0, 2);
+    var se1 = data.substr(2, 1);
+    var min = data.substr(3, 2);
+    var se2 = data.substr(5, 1);
+    var seg = data.substr(6, 2);
+
+    if (data.length != 8 || se1 != ':' || se2 != ':' || isNaN(hor) || isNaN(min) || isNaN(seg)) {
+        return false;
+    }
+
+    if (!((hor >= 0 && hor <= 23) && (min >= 0 && min <= 59) && (seg >= 0 && seg <= 59))) {
+        return false;
+    }
+
+    return true;
+}, "Por favor, um tempo válido");
+
+jQuery.validator.addMethod("equal", function (value, element, param) {
+    return this.optional(element) || (value != $(param).val() ? false : true);
+}, "Este valor deve ser igual");
+
+jQuery.validator.addMethod("notequal", function (value, element, param) {
+    return this.optional(element) || (value == $(param).val() ? false : true);
+}, "Este valor não pode ser igual");
+
+jQuery.validator.addMethod("valorMaxBR", function (value, element, param) {
+    if (!this.optional(element) && param) {
+        return (parseFloat(value.replace(',', '.')) > param ? false : true);
+    }
+
+    return true;
+}, "Este valor extrapola o valor máximo permitido!");
+
+jQuery.validator.addMethod("valorMaxInteiro", function (value, element, param) {
+    if (!this.optional(element) && param) {
+        return (parseInt(value) > param ? false : true);
+    }
+
+    return true;
+}, "Este valor extrapola o valor máximo permitido!");
+
+jQuery.validator.addMethod("telefoneValido", function (value, element) {
+    value = value.replace(/[^0-9]/g, "");
+
+    if (value == '0000000000') {
+        return (this.optional(element) || false);
+    } else if (value == '00000000000') {
+        return (this.optional(element) || false);
+    }
+    if (["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"].indexOf(value.substring(0, 2)) != -1) {
+        return (this.optional(element) || false);
+    }
+    if (value.length < 10 || value.length > 11) {
+        return (this.optional(element) || false);
+    }
+
+    return (this.optional(element) || true);
+}, "Por favor, um telefone válido");
+
+//Celular
+jQuery.validator.addMethod('celular', function (value, element) {
+    value = value.replace(/[^0-9]/g, "");
+
+    if (value == '0000000000') {
+        return (this.optional(element) || false);
+    } else if (value == '00000000000') {
+        return (this.optional(element) || false);
+    }
+    if (["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"].indexOf(value.substring(0, 2)) != -1) {
+        return (this.optional(element) || false);
+    }
+    if (value.length < 10 || value.length > 11) {
+        return (this.optional(element) || false);
+    }
+    if (["6", "7", "8", "9"].indexOf(value.substring(2, 3)) == -1) {
+        return (this.optional(element) || false);
+    }
+    return (this.optional(element) || true);
+}, 'Informe um celular válido');
+
+//Telefone fixo
+jQuery.validator.addMethod('telefone', function (value, element) {
+    value = value.replace(/[^0-9]/g, "");
+
+    if (value == '0000000000') {
+        return (this.optional(element) || false);
+    } else if (value == '00000000000') {
+        return (this.optional(element) || false);
+    }
+    if (["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10"].indexOf(value.substring(0, 2)) != -1) {
+        return (this.optional(element) || false);
+    }
+    if (value.length < 10 || value.length > 11) {
+        return (this.optional(element) || false);
+    }
+    if (["1", "2", "3", "4", "5"].indexOf(value.substring(2, 3)) == -1) {
+        return (this.optional(element) || false);
+    }
+    return (this.optional(element) || true);
+}, 'Informe um telefone válido');
+
+jQuery.validator.addMethod('nono', function (value, element) {
+    value = value.replace(/[^0-9]/g, "");
+
+    if (value && value.length < 11) {
+        return (this.optional(element) || false);
+    }
+    
+    return (this.optional(element) || true);
+}, 'Informe o nono dígito');
+
+jQuery.validator.addMethod("maxDate", function (value, element) {
+    var curDate = new Date();
+
+    if (value.toString().indexOf('/') != -1) {
+        value = value.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3-$2-$1$4");
+    }
+
+    var inputDate = new Date(value);
+    return inputDate < curDate;
+}, "Data Inválida");
+
+jQuery.validator.addMethod("minDate", function (value, element, param) {
+    if (value === '') {
+        return true;
+    }
+
+    var curDate = new Date();
+
+    if (value.toString().indexOf('/') != -1) {
+        value = value.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3/$2/$1$4");
+    }
+
+    var inputDate = new Date(value);
+
+    //Exceção para não comparar as horas
+    if (param['time'] !== undefined && param['time'] === false) {
+        curDate.setHours(0);
+        curDate.setMinutes(0);
+        curDate.setSeconds(0);
+        curDate.setMilliseconds(0);
+    }
+
+    return (inputDate >= curDate);
+}, "Data Inválida");
+
+jQuery.validator.addMethod("dataMaxima", function (value, element, param) {
+    if (value.toString().indexOf('/') != -1) {
+        value = value.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3-$2-$1$4");
+    }
+
+    if (param.toString().indexOf('/') != -1) {
+        param = param.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3-$2-$1$4");
+    }
+
+    value = new Date(value);
+    param = new Date(param);
+
+    if (!this.optional(element) && param) {
+        return (value > param ? false : true);
+    }
+
+    return true;
+}, "Data Máxima: {0} !");
+
+jQuery.validator.addMethod("dataMinima", function (value, element, param) {
+    if (value.toString().indexOf('/') != -1) {
+        value = value.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3/$2/$1$4");
+    }
+
+
+    if (param.toString().indexOf('/') != -1) {
+        param = param.replace(/(\d{2})\/(\d{2})\/(\d{4})(.*)/, "$3/$2/$1$4");
+    }
+
+    value = new Date(value);
+    param = new Date(param);
+
+    if (!this.optional(element) && param) {
+        return !(param > value);
+    }
+
+    return true;
+}, "Data Mínima: {0} !");
+
+jQuery.validator.addMethod("nomeValido", function (value, element) {
+    if (!eval("/(^([a-zà-ź]{3,})+)( [a-zà-ź]{3,}+){1,}$/i").exec(value.trim())) {
+        return (this.optional(element) || false);
+    }
+
+    return (this.optional(element) || true);
+}, "Por favor, insira um nome válido");
+
+jQuery.validator.addMethod("nomeSobrenome", function(val, el){
+    //Removendo til das letras pois é mais fácil que adicioná-los ao regex
+    var answer = val.replace(/[ãõ]/,'').replace(/[À-Ź]/g,"E").match(/([a-zA-Zà-ź]+\s?\b){2,}/);
+    //A ideia é validar somente quando o campo tem pelo menos uma letra/palavra
+    if(val == ""){
+        return true;
+    }
+    //Porém se o match for vazio, quer dizer que não foram encontradas mais que duas palavras
+    //Por isso o retorno deve ser de erro
+    if(answer == null){
+        return false;
+    }
+    //Essa última validação no retorno garante que o campo tem pelo menos 2 palavras
+    return answer.length >= 2;
+}, "Por favor, insira um nome válido");
+
+jQuery.validator.addMethod("limitTime", function (value, element, timeLimit) {
+    if (value == '') {
+        return true;
+    }
+
+    if (value.indexOf(':') <= 0) {
+        return false;
+    }
+
+    var data = value.split(':');
+    var hora = data[0] || -1;
+    var min = data[1] || -1;
+
+    if (!((hora >= 0 && hora <= 23) && (min >= 0 && min <= 59))) {
+        return false;
+    }
+
+    var dataAtual = new Date();
+    dataAtual.setSeconds(0);
+    dataAtual.setHours(hora);
+    dataAtual.setMinutes(min);
+
+    if (timeLimit['min'] !== undefined) {
+        if (timeLimit['min'] == '' || timeLimit['min'].indexOf(':') <= 0) {
+            return false;
+        }
+
+
+        var dataTimeLimitMin = timeLimit['min'].split(':');
+
+        var dataMinima = new Date();
+        dataMinima.setSeconds(0);
+        dataMinima.setHours(dataTimeLimitMin[0]);
+        dataMinima.setMinutes(dataTimeLimitMin[1]);
+
+        if (dataAtual < dataMinima) {
+            return false;
+        }
+    }
+
+
+    if (timeLimit['max'] !== undefined) {
+        if (timeLimit['max'] == '' || timeLimit['max'].indexOf(':') <= 0) {
+            return false;
+        }
+
+        var dataTimeLimitMax = timeLimit['max'].split(':');
+
+        var dataMaxima = new Date();
+        dataMaxima.setSeconds(0);
+        dataMaxima.setHours(dataTimeLimitMax[0]);
+        dataMaxima.setMinutes(dataTimeLimitMax[1]);
+
+        if (dataAtual > dataMaxima) {
+            return false;
+        }
+    }
+
+    return true;
+}, "Por favor, informe uma hora válida");
+
+jQuery.validator.addMethod("ipv4", function(value, element, param) {
+    let regIpv4 = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/;
+    let elementSelect2 = $(element).siblings('.select2-container').length > 0;
+
+    value = elementSelect2 ? $(element).select2('val') : $(element).val();
+
+    if($.isArray(value)) {
+        for(let i = 0; i < value.length; i++) {
+            if(!regIpv4.test(value[i])) {
+                return this.optional(element) || false;
+            }
+        }
+
+        return this.optional(element) || true;
+    }
+
+    return this.optional(element) || regIpv4.test(value);
+}, "Por favor, informe um IPv4 válido");

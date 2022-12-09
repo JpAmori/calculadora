@@ -1,0 +1,40 @@
+jQuery(function(){
+    // tratamento global de requisições ajax
+  $(document).ajaxError(function(event, request, settings) {
+    var message;
+
+    // tratamento de requisições ajax com codigo de retorno 401 (não autorizados)
+    if(request.status == 401) {
+      message = "<strong><h4>Acesso Negado!</h4></strong>"+
+              "<p>"+
+                "Você não possui privilégios para realizar essa ação"+
+                " ou seu tempo de sessão expirou."+
+              "</p>"+
+              "<p>"+
+                "<a href='/acesso/autenticacao/logout'>"+
+                "<b>Efetue login novamente</b></a> ou verifique sua conexão com a Internet."+
+              "</p>";
+
+      $("#log-message").html(
+        "<div class='alert alert-warning alert-dismissible fade in' role='alert'>"+
+          "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>"+
+            "<span aria-hidden='true'>×</span>"+
+          "</button>"+
+          message+
+        "</div>"
+      );
+
+
+      setTimeout(function () {
+        /*
+         * Irá fechar o modal e  subir a tela
+         */
+        if ($('.modal').length > 0) {
+          $('.modal').modal('hide');
+        }
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+      }, 1000);
+    }
+  });
+});

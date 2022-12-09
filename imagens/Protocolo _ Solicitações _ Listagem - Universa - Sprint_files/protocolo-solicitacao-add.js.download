@@ -1,0 +1,211 @@
+(function ($, window, document) {
+    'use strict';
+
+    var ProtocoloSolicitacaoAdd = function () {
+        VersaShared.call(this);
+        var __protocoloSolicitacaoAdd = this;
+        this.defaults = {
+            ajaxSubmit: 0,
+            listagem: 0,
+            url: {protocoloSetor: ''},
+            data: {},
+            value: {setor: null},
+            datatables: {},
+            wizardElement: '#protocolo-solicitacao-wizard',
+            formElement: '#protocolo-solicitacao-form',
+            validator: null
+        };
+
+        this.steps = {};
+
+        this.setSteps = function () {
+            var $setor = $("#setor");
+            $setor.select2({
+                language: 'pt-BR',
+                allowClear: true,
+                minimumInputLength: 1,
+                ajax: {
+                    url: __protocoloSolicitacaoAdd.options.url.protocoloSetor,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (query) {
+                        return {query: query};
+                    },
+                    results: function (data) {
+                        var transformed = $.map(data, function (el) {
+                            el.id = el.setor_id;
+                            el.text = el.setor_descricao;
+
+                            return el;
+                        });
+
+                        return {results: transformed};
+                    }
+                }
+            });
+
+            $setor.select2("data", __protocoloSolicitacaoAdd.getSetor());
+
+            var $solicitacaoVisibilidade = $("#solicitacaoVisibilidade");
+            $solicitacaoVisibilidade.select2({
+                allowClear: true,
+                language: 'pt-BR'
+            }).trigger("change");
+
+            $("#solicitacaoTempoSolucao").inputmask({
+                showMaskOnHover: false, clearIncomplete: true, mask: ['999:99']
+            });
+
+            $('#solicitacaoTempoSolucao').keyup(function () {
+                let value = $(this).val();
+                let qntdNumero = value.replace(/([^\d])+/gim, '').length;
+                let retorno = "";
+
+                if (qntdNumero == 5) {
+                    let numero = __protocoloSolicitacaoAdd.tempoParaNumero(value);
+                    retorno = __protocoloSolicitacaoAdd.numeroParaTempoExtenso(numero);
+                }
+
+                $('#tempoSolucaoPorExtenso').text(retorno)
+            });
+
+            $('#solicitacaoTempoSolucao').change( function () {
+                let value = $(this).val();
+                let qntdNumero = value.replace(/([^\d])+/gim, '').length;
+                
+                let retorno = "";
+
+                if (qntdNumero == 5) {
+                    let numero = __protocoloSolicitacaoAdd.tempoParaNumero(value);
+                    retorno = __protocoloSolicitacaoAdd.numeroParaTempoExtenso(numero);
+                }
+
+                $('#tempoSolucaoPorExtenso').text(retorno)
+            });
+
+        };
+
+        this.setSetor = function (setor) {
+            this.options.value.setor = setor || null;
+        };
+
+        this.getSetor = function () {
+            return this.options.value.setor || null;
+        };
+        this.setValidations = function () {
+            __protocoloSolicitacaoAdd.options.validator.settings.rules = {
+                setor: {number: true, required: true},
+                solicitacaoDescricao: {maxlength: 200, required: true},
+                solicitacaoVisibilidade: {maxlength: 7, required: true},
+                solicitacaoTempoSolucao: {maxlength: 11, required: true}
+            };
+            __protocoloSolicitacaoAdd.options.validator.settings.messages = {
+                setor: {number: 'Número inválido!', required: 'Campo obrigatório!'},
+                solicitacaoDescricao: {maxlength: 'Tamanho máximo: 200!', required: 'Campo obrigatório!'},
+                solicitacaoVisibilidade: {maxlength: 'Tamanho máximo: 7!', required: 'Campo obrigatório!'},
+                solicitacaoTempoSolucao: {maxlength: 'Tamanho máximo: 11!', required: 'Campo obrigatório!'}
+            };
+
+            $(__protocoloSolicitacaoAdd.options.formElement).submit(function (e) {
+                var ok = $(__protocoloSolicitacaoAdd.options.formElement).valid();
+
+                if (!ok) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
+                var $form = $(__protocoloSolicitacaoAdd.options.formElement);
+
+                if (__protocoloSolicitacaoAdd.options.ajaxSubmit || $form.data('ajax')) {
+                    var dados = $form.serializeJSON();
+                    dados['ajax'] = true;
+
+                    if (!$form.data('ajax')) {
+                        $form.data('ajax', true);
+                        __protocoloSolicitacaoAdd.addOverlay($form, 'Salvando registro. Aguarde...');
+                        $.ajax({
+                            url: $form.attr('action'),
+                            type: 'POST',
+                            dataType: 'json',
+                            data: dados,
+                            success: function (data) {
+                                if (data.erro) {
+                                    __protocoloSolicitacaoAdd.showNotificacaoDanger(
+                                        data['mensagem'] || "Não foi possível salvar registro"
+                                    );
+                                } else if (__protocoloSolicitacaoAdd.options.listagem) {
+                                    $.protocoloSolicitacaoIndex().reloadDataTableProtocoloSolicitacao();
+                                    __protocoloSolicitacaoAdd.showNotificacaoSuccess(
+                                        data['mensagem'] || "Registro Salvo!"
+                                    );
+                                    $('#protocolo-solicitacao-modal').modal('hide');
+                                }
+
+                                __protocoloSolicitacaoAdd.removeOverlay($form);
+                                $form.data('ajax', false);
+                            }
+                        });
+                    } else {
+                        $form.data('ajax', false);
+                    }
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
+                this.submit();
+                return true;
+            });
+        };
+
+        this.pesquisaProtocoloSolicitacao = function (solicitacao_id, callback) {
+            var $form = $(__protocoloSolicitacaoAdd.options.formElement);
+            var action = $form.attr('action');
+            action = action.replace(/\/(edit|add)((&|\/).*|)/i, '');
+
+            __protocoloSolicitacaoAdd.addOverlay($form, 'Aguarde. Pesquisando dados do registro...');
+
+            $.ajax({
+                url: action + "/edit/" + solicitacao_id,
+                dataType: 'json',
+                type: 'get',
+                data: {ajax: true},
+                success: function (data) {
+                    if (Object.keys(data).length == 0) {
+                        __protocoloSolicitacaoAdd.showNotificacaoInfo('Nenhum registro encontrado!');
+                    } else {
+                        callback(data['arrDados']);
+                    }
+
+                    __protocoloSolicitacaoAdd.removeOverlay($form);
+                },
+                erro: function () {
+                    __protocoloSolicitacaoAdd.showNotificacaoDanger('Erro desconhecido!');
+                    __protocoloSolicitacaoAdd.removeOverlay($form);
+                }
+            });
+        };
+
+        this.run = function (opts) {
+            this.setDefaults(opts);
+            this.setSteps();
+            this.setValidations();
+        };
+    };
+
+    $.protocoloSolicitacaoAdd = function (params) {
+        params = params || [];
+
+        var obj = $(window).data("universa.protocolo.protocolo-solicitacao.add");
+
+        if (!obj) {
+            obj = new ProtocoloSolicitacaoAdd();
+            obj.run(params);
+            $(window).data('universa.protocolo.protocolo-solicitacao.add', obj);
+        }
+
+        return obj;
+    };
+})(window.jQuery, window, document);

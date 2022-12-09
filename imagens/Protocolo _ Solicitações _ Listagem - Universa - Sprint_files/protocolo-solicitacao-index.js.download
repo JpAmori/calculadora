@@ -1,0 +1,236 @@
+(function ($, window, document) {
+    'use strict';
+    var ProtocoloSolicitacaoIndex = function () {
+        VersaShared.call(this);
+        var __protocoloSolicitacaoIndex = this;
+        this.defaults = {
+            ajax: true,
+            url: {
+                search: '',
+                edit: '',
+                remove: ''
+            },
+            datatables: {
+                protocoloSolicitacao: null
+            }
+        };
+
+        this.setSteps = function () {
+            var $dataTableProtocoloSolicitacao = $('#dataTableProtocoloSolicitacao');
+            var colNum = -1;
+            __protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao = $dataTableProtocoloSolicitacao.dataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: __protocoloSolicitacaoIndex.options.url.search,
+                    type: "POST",
+                    dataSrc: function (json) {
+                        var data = json.data;
+                        var btns = [
+                            {class: 'btn-primary item-edit', icon: 'fa-pencil'},
+                            {class: 'btn-danger item-remove', icon: 'fa-times'}
+                        ];
+
+                        for (var row in data) {
+                            data[row]['acao'] = __protocoloSolicitacaoIndex.createBtnGroup(btns);
+                        }
+
+                        __protocoloSolicitacaoIndex.removeOverlay($('#container-protocolo-solicitacao'));
+
+                        return data;
+                    }
+                },
+                columnDefs: [
+                    {name: "solicitacao_id", targets: ++colNum, data: "solicitacao_id"},
+                    {name: "setor_descricao", targets: ++colNum, data: "setor_descricao"},
+                    {name: "solicitacao_descricao", targets: ++colNum, data: "solicitacao_descricao"},
+                    {name: "solicitacao_visibilidade", targets: ++colNum, data: "solicitacao_visibilidade"},
+                    {name: "solicitacao_id", targets: ++colNum, data: "acao"}
+                ],
+                "dom": "fr" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-sm-6'i><'col-sm-6'p>>",
+                "autoWidth": true,
+                oLanguage: {
+                    sProcessing: "<i class='fa fa-lg fa-spinner fa-spin'></i>",
+                    sLengthMenu: "Mostrar _MENU_ registros por página",
+                    sZeroRecords: "Nenhum registro encontrado",
+                    sInfo: "Mostrando _START_ / _END_ de _TOTAL_ registro(s)",
+                    sInfoEmpty: "Mostrando 0 / 0 de 0 registros",
+                    sInfoFiltered: "(filtrado de _MAX_ registros)",
+                    sSearch: "Procurar: ",
+                    oPaginate: {
+                        sFirst: "Início",
+                        sPrevious: "Anterior",
+                        sNext: "Próximo",
+                        sLast: "Último"
+                    }
+                },
+                order: [[0, 'asc']]
+            });
+
+            $dataTableProtocoloSolicitacao.on('click', '.item-edit', function (event) {
+                var $pai = $(this).closest('tr');
+                var data = __protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao.fnGetData($pai);
+
+                if (!__protocoloSolicitacaoIndex.options.ajax) {
+                    location.href = __protocoloSolicitacaoIndex.options.url.edit + '/' + data['solicitacao_id'];
+                } else {
+                    __protocoloSolicitacaoIndex.addOverlay(
+                        $('#container-protocolo-solicitacao'), 'Aguarde, carregando dados para edição...'
+                    );
+                    $.protocoloSolicitacaoAdd().pesquisaProtocoloSolicitacao(
+                        data['solicitacao_id'],
+                        function (data) {
+                            __protocoloSolicitacaoIndex.showModal(data);
+                        }
+                    );
+                }
+            });
+
+
+            $('#btn-protocolo-solicitacao-add').click(function (e) {
+                if (__protocoloSolicitacaoIndex.options.ajax) {
+                    __protocoloSolicitacaoIndex.showModal();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+
+            $dataTableProtocoloSolicitacao.on('click', '.item-remove', function (e) {
+                var $pai = $(this).closest('tr');
+                var data = __protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao.fnGetData($pai);
+                var arrRemover = {
+                    solicitacaoId: data['solicitacao_id']
+                };
+
+                $.SmartMessageBox({
+                    title: "Confirme a operação:",
+                    content: 'Deseja realmente remover registro de solicitação "' + data['solicitacao_descricao'] + '"?',
+                    buttons: "[Não][Sim]",
+                }, function (ButtonPress) {
+                    if (ButtonPress == "Sim") {
+                        setTimeout(function () {
+                            __protocoloSolicitacaoIndex.addOverlay(
+                                $('#container-protocolo-solicitacao'), 'Aguarde, solicitando remoção de registro de solicitação...'
+                            );
+                            $.ajax({
+                                url: __protocoloSolicitacaoIndex.options.url.remove,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: arrRemover,
+                                success: function (data) {
+                                    if (data.erro) {
+                                        __protocoloSolicitacaoIndex.showNotificacaoDanger(
+                                            "Não foi possível remover registro de solicitação:\n" +
+                                            "<i>" + data['erroDescricao'] + "</i>"
+                                        );
+                                        __protocoloSolicitacaoIndex.removeOverlay($('#container-protocolo-solicitacao'));
+                                    } else {
+                                        __protocoloSolicitacaoIndex.reloadDataTableProtocoloSolicitacao();
+                                        __protocoloSolicitacaoIndex.showNotificacaoSuccess(
+                                            "Registro de solicitação removido!"
+                                        );
+                                    }
+                                }
+                            });
+                        }, 400);
+                    }
+                });
+
+                e.preventDefault();
+            });
+        };
+
+        this.showModal = function (data) {
+            $('.help-block').remove();
+            $('.form-group').removeClass('has-error');
+            data = data || {};
+            var actionTitle = 'Cadastrar';
+            var $form = $('#protocolo-solicitacao-form'),
+                $modal = $('#protocolo-solicitacao-modal');
+            var actionForm = $form.attr('action');
+            actionForm = actionForm.replace(/\/[0-9]+/g, '');
+            actionForm = actionForm.split('/');
+
+            if (Object.keys(data).length > 0) {
+                actionTitle = 'Editar';
+                actionForm[actionForm.length - 1] = 'edit';
+                actionForm.push(data['solicitacaoId']);
+            } else {
+                actionForm[actionForm.length - 1] = 'add';
+                data['solicitacaoId'] = "";
+            }
+
+            actionForm = actionForm.join('/');
+            $form.attr('action', actionForm);
+
+
+            $form[0].reset();
+            $form.deserialize(data);
+
+            var $setor = $("#setor");
+            $setor.select2('data', data['setor']).trigger("change");
+
+            var $solicitacaoVisibilidade = $("#solicitacaoVisibilidade");
+            var solicitacaoVisibilidade=data['solicitacaoVisibilidade']||'';
+
+            if(solicitacaoVisibilidade){
+                solicitacaoVisibilidade=solicitacaoVisibilidade.split(',')
+            }
+
+            $solicitacaoVisibilidade.select2('val', solicitacaoVisibilidade).trigger("change");
+
+            $modal.find('.modal-title').html(actionTitle + ' solicitação');
+            $modal.modal();
+            __protocoloSolicitacaoIndex.removeOverlay($('#container-protocolo-solicitacao'));
+
+            let tempoSolucaoPorExtenso = "";
+            if (data['solicitacaoTempoSolucao']) {
+
+                let numero = data['solicitacaoTempoSolucao'];
+                let horaFormata = __protocoloSolicitacaoIndex.numeroParaTempo(numero,3);
+                $('#solicitacaoTempoSolucao').val(horaFormata);
+
+                tempoSolucaoPorExtenso = __protocoloSolicitacaoIndex.numeroParaTempoExtenso(numero);
+            }
+            $('#tempoSolucaoPorExtenso').text(tempoSolucaoPorExtenso)
+
+        };
+
+        this.reloadDataTableProtocoloSolicitacao = function () {
+            this.getDataTableProtocoloSolicitacao().api().ajax.reload(null, false);
+        };
+
+        this.getDataTableProtocoloSolicitacao = function () {
+            if (!__protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao) {
+                if (!$.fn.dataTable.isDataTable('#dataTableProtocoloSolicitacao')) {
+                    __protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao = $('#dataTableProtocoloSolicitacao').DataTable();
+                } else {
+                    __protocoloSolicitacaoIndex.showNotificacaoDanger("Listagem não inicializada!");
+                }
+            }
+
+            return __protocoloSolicitacaoIndex.options.datatables.protocoloSolicitacao;
+        };
+
+        this.run = function (opts) {
+            __protocoloSolicitacaoIndex.setDefaults(opts);
+            __protocoloSolicitacaoIndex.setSteps();
+        };
+    };
+
+    $.protocoloSolicitacaoIndex = function (params) {
+        params = params || [];
+
+        var obj = $(window).data("universa.protocolo.protocolo-solicitacao.index");
+
+        if (!obj) {
+            obj = new ProtocoloSolicitacaoIndex();
+            obj.run(params);
+            $(window).data('universa.protocolo.protocolo-solicitacao.index', obj);
+        }
+
+        return obj;
+    };
+})(window.jQuery, window, document);
